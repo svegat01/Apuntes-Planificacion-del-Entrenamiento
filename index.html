@@ -1,413 +1,985 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Entrenamiento y Educación Física</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --danger: #ef4444;
-            --warning: #f59e0b;
+    <title>Planificación del Acondicionamiento Físico | 1º Bachillerato</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0f172a',
+                        },
+                        school: {
+                            blue: '#1e3a8a',
+                            royal: '#2563eb',
+                            cyan: '#06b6d4',
+                            gold: '#f59e0b',
+                            amber: '#d97706',
+                        },
+                        accent: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        .gradient-hero {
+            background: linear-gradient(135deg, #0b1329 0%, #1e3a8a 50%, #0284c7 100%);
+        }
+        /* Smooth transitions for filtering */
+        .exercise-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .filter-btn.active {
+            background-color: #0f172a;
+            color: white;
+        }
         
-        /* Navegación */
-        header { background: white; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 1.5rem; color: var(--primary); }
-        nav gap { display: flex; gap: 1.5rem; }
-        nav a { text-decoration: none; color: var(--dark); font-weight: 600; transition: color 0.3s; }
-        nav a:hover { color: var(--primary); }
-
-        /* Contenedor Principal */
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
-        section { background: white; margin-bottom: 2rem; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); scroll-margin-top: 100px; }
-        h2 { color: var(--primary); margin-bottom: 1.5rem; font-size: 2rem; border-bottom: 3px solid var(--primary); padding-bottom: 0.5rem; display: inline-block; }
-        h3 { color: var(--dark); margin: 1.5rem 0 0.5rem 0; font-size: 1.3rem; }
-
-        /* Gráficos SVG (Teoría) */
-        .svg-container { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 1.5rem; }
-        .chart-box { flex: 1; min-width: 300px; background: #fff; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; text-align: center; }
-        .chart-box svg { max-width: 100%; height: auto; }
-        
-        /* Tarjetas Sistemas de Resistencia */
-        .systems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .system-card { background: var(--light); padding: 1.5rem; border-radius: 8px; border-left: 5px solid var(--primary); }
-        .system-card .fc { background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
-        .system-card .example { margin-top: 1rem; font-style: italic; color: var(--gray); font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 0.5rem; }
-
-        /* Biblioteca de Ejercicios */
-        .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-        .filter-btn { padding: 0.5rem 1rem; border: none; background: #e2e8f0; color: var(--dark); border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
-        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: white; }
-        
-        .exercise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-        .exercise-card { background: var(--light); padding: 1.5rem; border-radius: 8px; text-align: center; font-weight: 600; border: 1px solid #cbd5e1; transition: transform 0.2s; }
-        .exercise-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .exercise-card span { display: block; font-size: 0.8rem; font-weight: 400; color: var(--gray); margin-top: 0.5rem; text-transform: uppercase; }
-
-        /* Calculadoras */
-        .calc-container { display: flex; flex-wrap: wrap; gap: 2rem; }
-        .calc-inputs { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 1rem; }
-        .calc-inputs label { font-weight: 600; }
-        .calc-inputs input { padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
-        .calc-btn { padding: 1rem; background: var(--secondary); color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s; }
-        .calc-btn:hover { background: #059669; }
-        
-        .calc-results { flex: 2; min-width: 300px; }
-        .zone-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        .zone-table th, .zone-table td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #cbd5e1; }
-        .zone-table th { background: var(--primary); color: white; }
-        .z1 { border-left: 4px solid #94a3b8; }
-        .z2 { border-left: 4px solid #3b82f6; }
-        .z3 { border-left: 4px solid #22c55e; }
-        .z4 { border-left: 4px solid #f59e0b; }
-        .z5 { border-left: 4px solid #ef4444; }
-
-        /* Prompts */
-        .prompt-builder { background: var(--light); padding: 1.5rem; border-radius: 8px; border: 1px solid #cbd5e1; }
-        .prompt-result { background: #1e293b; color: #38bdf8; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; font-family: monospace; white-space: pre-wrap; line-height: 1.4; }
+        /* Math typesetting helpers */
+        .math-inline {
+            font-family: 'Cambria Math', 'Latin Modern Math', serif;
+            font-style: italic;
+        }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <header>
-        <h1>EduFisWeb</h1>
-        <nav gap>
-            <a href="#teoria">Teoría</a>
-            <a href="#sistemas">Resistencia</a>
-            <a href="#ejercicios">Ejercicios</a>
-            <a href="#calculadoras">Calculadoras</a>
-            <a href="#prompts">Guía Prompts</a>
-        </nav>
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md text-white border-b border-slate-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-school-blue via-school-royal to-school-cyan flex items-center justify-center text-white font-black text-sm shadow-lg shadow-school-royal/30 border border-white/20 group-hover:scale-105 transition-transform">
+                    <span class="tracking-tighter font-extrabold text-xs">EF</span>
+                </div>
+                <div>
+                    <span class="font-heading font-bold text-base sm:text-lg leading-none block tracking-tight">
+                        <span data-es="UD Planificación del entrenamiento" data-en="Training Planning Unit">UD Planificación del entrenamiento</span> 
+                        <span class="text-school-gold text-xs px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 rounded-full font-mono">1º Bach</span>
+                    </span>
+                    <span class="text-xs text-slate-300 font-medium" data-es="Análisis científico crítico para el día a día" data-en="Critical scientific analysis for daily life">Análisis científico crítico para el día a día</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden xl:flex items-center space-x-1 text-xs font-semibold">
+                <a href="#leyes-principios" class="px-2.5 py-1.5 rounded-lg text-school-gold bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition" data-es="⚡ Adaptación y Principios" data-en="⚡ Adaptation & Principles">⚡ Adaptación y Principios</a>
+                <a href="#planificacion" class="px-2.5 py-1.5 rounded-lg hover:text-brand-400 hover:bg-slate-800/60 transition" data-es="🗺️ Planificación" data-en="🗺️ Planning">🗺️ Planificación</a>
+                <a href="#sistemas" class="px-2.5 py-1.5 rounded-lg hover:text-brand-400 hover:bg-slate-800/60 transition" data-es="🏋️ Sistemas" data-en="🏋️ Systems">🏋️ Sistemas</a>
+                <a href="#calculadora" class="px-2.5 py-1.5 rounded-lg text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition" data-es="🧮 Calculadora" data-en="🧮 Calculator">🧮 Calculadora</a>
+                <a href="#prompts-ia" class="px-2.5 py-1.5 rounded-lg text-brand-400 bg-brand-500/10 border border-brand-500/20 hover:bg-brand-500/20 transition" data-es="🤖 Prompts IA" data-en="🤖 AI Prompts">🤖 Prompts IA</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button id="langToggleBtn" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 hover:border-brand-500 text-xs font-bold transition">
+                    <i class="fa-solid fa-globe text-brand-400"></i>
+                    <span id="currentLangLabel">ES / EN</span>
+                </button>
+                <button id="mobileMenuBtn" class="xl:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden xl:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-4 space-y-2 text-sm">
+            <a href="#leyes-principios" class="mobile-link block px-3 py-2 rounded-md text-school-gold bg-amber-500/10 font-semibold" data-es="⚡ Leyes & Principios" data-en="⚡ Laws & Principles">⚡ Leyes & Principios</a>
+            <a href="#planificacion" class="mobile-link block px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800" data-es="🗺️ Planificación y Carga" data-en="🗺️ Planning & Load">🗺️ Planificación y Carga</a>
+            <a href="#sistemas" class="mobile-link block px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800" data-es="🏋️ Sistemas Entrenamiento" data-en="🏋️ Training Systems">🏋️ Sistemas Entrenamiento</a>
+            <a href="#calculadora" class="mobile-link block px-3 py-2 rounded-md text-emerald-400 bg-emerald-500/10 font-semibold" data-es="🧮 Calculadora FC y Zonas" data-en="🧮 HR & Zones Calculator">🧮 Calculadora FC y Zonas</a>
+            <a href="#prompts-ia" class="mobile-link block px-3 py-2 rounded-md text-brand-400 bg-brand-500/10 font-semibold" data-es="🤖 Guía Prompts IA" data-en="🤖 AI Prompts Guide">🤖 Guía Prompts IA</a>
+        </div>
     </header>
 
-    <div class="container">
-        <!-- SECCIÓN 1: TEORÍA -->
-        <section id="teoria">
-            <h2>Bases del Entrenamiento</h2>
-            <p>Comprender cómo asimila el cuerpo los estímulos es vital para planificar cualquier sistema de entrenamiento.</p>
-            
-            <div class="svg-container">
-                <!-- Ley del Umbral SVG -->
-                <div class="chart-box">
-                    <h3>Ley del Umbral (Schultz-Arnordt)</h3>
-                    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--gray);">Explica la intensidad necesaria para que un estímulo genere adaptaciones.</p>
-                    <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Ejes -->
-                        <line x1="40" y1="220" x2="380" y2="220" stroke="#1e293b" stroke-width="2"/>
-                        <line x1="40" y1="20" x2="40" y2="220" stroke="#1e293b" stroke-width="2"/>
+    <!-- HERO SECTION -->
+    <section class="gradient-hero text-white py-14 lg:py-18 relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-school-cyan/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 space-y-5 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-school-gold text-xs font-semibold tracking-wide uppercase">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span data-es="Ciencia y Actividad Física" data-en="Science and Physical Activity">Ciencia y Actividad Física</span>
+                    </div>
+                    <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+                        <span data-es="Teoría y Planificación del Entrenamiento" data-en="Training Theory & Planning">Teoría y Planificación del Entrenamiento</span>
+                    </h1>
+                    <p class="text-slate-200 text-sm sm:text-base max-w-3xl font-normal leading-relaxed mx-auto lg:mx-0" data-es="No se trata solo de sudar, sino de entender cómo y por qué el cuerpo se adapta. Analiza de forma crítica y científica tu actividad física diaria." data-en="It's not just about sweating, but understanding how and why the body adapts. Critically and scientifically analyze your daily physical activity.">
+                        No se trata solo de sudar, sino de entender <strong>cómo</strong> y <strong>por qué</strong> el cuerpo se adapta. Analiza de forma crítica y científica tu actividad física diaria, diseña métodos fundamentados y aprende a usar herramientas avanzadas (IA) como un profesional.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- SECTION 1: LEYES DE ADAPTACIÓN Y PRINCIPIOS -->
+        <section id="leyes-principios" class="scroll-mt-20">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-amber-500/10 text-amber-600 rounded-2xl text-xl font-bold">⚡</span>
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900" data-es="1. Leyes de Adaptación y Principios" data-en="1. Adaptation Laws & Principles">1. Leyes de Adaptación y Principios</h2>
+                    <p class="text-slate-500 text-sm mt-1" data-es="Las bases biológicas universales que dictan si un entrenamiento funciona o fracasa." data-en="The universal biological bases that dictate whether a training works or fails.">Las bases biológicas universales que dictan si un entrenamiento funciona o fracasa.</p>
+                </div>
+            </div>
+
+            <!-- LEYES -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Ley del Umbral -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading font-bold text-lg text-slate-900 mb-2" data-es="Ley del Umbral (Schultz-Arndt)" data-en="Law of Threshold">Ley del Umbral (Schultz-Arndt)</h3>
+                        <p class="text-sm text-slate-600 mb-4" data-es="Definición: El estímulo de entrenamiento debe poseer una intensidad mínima (superar tu umbral personal) para generar una adaptación biológica, pero sin sobrepasar tu límite de máxima tolerancia para evitar lesiones." data-en="Definition: The training stimulus must have a minimum intensity (exceed your threshold) to generate adaptation, without exceeding max tolerance."><strong>Definición:</strong> El estímulo de entrenamiento debe poseer una intensidad mínima (superar tu umbral personal) para generar una adaptación biológica, pero sin sobrepasar tu límite de máxima tolerancia para evitar lesiones o sobreentrenamiento.</p>
                         
-                        <!-- Líneas de umbral -->
-                        <line x1="40" y1="160" x2="380" y2="160" stroke="#64748b" stroke-width="1" stroke-dasharray="5,5"/>
-                        <text x="385" y="165" font-size="10" fill="#64748b">Umbral Mínimo</text>
+                        <div class="relative h-40 bg-slate-50 rounded-xl mb-4 border border-slate-200 flex items-center justify-center overflow-hidden">
+                            <svg viewBox="0 0 400 200" class="w-full h-full opacity-90">
+                                <line x1="0" y1="150" x2="400" y2="150" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
+                                <text x="10" y="145" font-size="10" fill="#64748b" data-es="Umbral de Estímulo" data-en="Stimulus Threshold">Umbral de Estímulo</text>
+                                <line x1="0" y1="50" x2="400" y2="50" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
+                                <text x="10" y="45" font-size="10" fill="#64748b" data-es="Máxima Tolerancia" data-en="Max Tolerance">Máxima Tolerancia</text>
+                                <rect x="50" y="160" width="40" height="40" fill="#94a3b8" />
+                                <text x="70" y="195" font-size="10" fill="white" text-anchor="middle">1</text>
+                                <rect x="130" y="150" width="40" height="50" fill="#fbbf24" />
+                                <text x="150" y="195" font-size="10" fill="white" text-anchor="middle">2</text>
+                                <rect x="210" y="80" width="40" height="120" fill="#10b981" />
+                                <text x="230" y="195" font-size="10" fill="white" text-anchor="middle">3</text>
+                                <rect x="290" y="20" width="40" height="180" fill="#ef4444" />
+                                <text x="310" y="195" font-size="10" fill="white" text-anchor="middle">4</text>
+                            </svg>
+                        </div>
+                        <ul class="text-xs space-y-2 text-slate-600">
+                            <li><strong>1. Estímulo Subumbral (Débil):</strong> No llega al umbral. <em>Ejemplo: Caminar muy despacio para alguien que corre maratones. No mejora la condición física.</em></li>
+                            <li><strong>2. Estímulo de Mantenimiento:</strong> Toca el umbral. <em>Ejemplo: Salir a trotar suave al mismo ritmo de siempre. Evita que pierdas forma, pero no mejoras.</em></li>
+                            <li class="text-emerald-700"><strong>3. Estímulo Óptimo:</strong> Supera el umbral. <em>Ejemplo: Aumentar el peso en el gimnasio o correr más rápido. Obliga al cuerpo a mejorar.</em></li>
+                            <li class="text-red-600"><strong>4. Estímulo Excesivo:</strong> Supera la tolerancia. <em>Ejemplo: Intentar levantar 100kg el primer día. Produce lesiones.</em></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Supercompensación -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading font-bold text-lg text-slate-900 mb-2" data-es="Supercompensación (Selye)" data-en="Supercompensation (Selye)">Síndrome General de Adaptación (Supercompensación)</h3>
+                        <p class="text-sm text-slate-600 mb-4" data-es="Definición: Tras la aplicación de un estímulo (entrenamiento) se produce una fatiga. Durante el descanso, el cuerpo no solo recupera el nivel inicial, sino que lo sobrepasa (supercompensa) preparándose para un estímulo mayor." data-en="Definition: After a stimulus, fatigue occurs. During rest, the body not only recovers but exceeds the initial level."><strong>Definición:</strong> Tras la aplicación de un estímulo (entrenamiento) se produce una fatiga que disminuye el rendimiento. Durante el descanso, el cuerpo no solo recupera sus reservas al nivel inicial, sino que las sobrepasa (supercompensa) preparándose para un estímulo mayor.</p>
                         
-                        <line x1="40" y1="80" x2="380" y2="80" stroke="#ef4444" stroke-width="1" stroke-dasharray="5,5"/>
-                        <text x="385" y="85" font-size="10" fill="#ef4444">Máxima Tolerancia</text>
-
-                        <!-- Estímulos (Barras) -->
-                        <rect x="70" y="180" width="40" height="40" fill="#94a3b8" />
-                        <text x="75" y="240" font-size="10">Sub-umbral</text>
-                        <text x="60" y="175" font-size="10" fill="#94a3b8">(Sin efecto)</text>
-
-                        <rect x="150" y="110" width="40" height="110" fill="#10b981" />
-                        <text x="145" y="240" font-size="10">Óptimo</text>
-                        <text x="140" y="105" font-size="10" fill="#10b981">(Adaptación)</text>
-
-                        <rect x="230" y="40" width="40" height="180" fill="#ef4444" />
-                        <text x="225" y="240" font-size="10">Excesivo</text>
-                        <text x="215" y="35" font-size="10" fill="#ef4444">(Sobreentreno)</text>
-                    </svg>
-                </div>
-
-                <!-- Síndrome General de Adaptación SVG -->
-                <div class="chart-box">
-                    <h3>Síndrome General de Adaptación (Seyle)</h3>
-                    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--gray);">Respuesta del organismo ante el estrés (entrenamiento) y supercompensación.</p>
-                    <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Ejes -->
-                        <line x1="40" y1="220" x2="380" y2="220" stroke="#1e293b" stroke-width="2"/>
-                        <line x1="40" y1="20" x2="40" y2="220" stroke="#1e293b" stroke-width="2"/>
-                        
-                        <!-- Línea Base (Homeostasis) -->
-                        <line x1="40" y1="120" x2="380" y2="120" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,4"/>
-                        <text x="5" y="125" font-size="10" fill="#64748b">Base</text>
-
-                        <!-- Curva SGA -->
-                        <path d="M 40 120 C 80 120, 100 200, 140 180 C 180 150, 200 40, 260 60 C 320 80, 340 120, 380 120" fill="transparent" stroke="#2563eb" stroke-width="3"/>
-                        
-                        <!-- Fases Etiquetas -->
-                        <text x="70" y="210" font-size="11" fill="#ef4444" font-weight="bold">1. Alarma</text>
-                        <text x="190" y="45" font-size="11" fill="#10b981" font-weight="bold">2. Supercompensación</text>
-                        <text x="300" y="100" font-size="11" fill="#f59e0b" font-weight="bold">3. Agotamiento</text>
-                        
-                        <!-- Flecha Estímulo -->
-                        <line x1="60" y1="80" x2="60" y2="110" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)"/>
-                        <text x="55" y="70" font-size="10" font-weight="bold">Carga</text>
-                    </svg>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 2: SISTEMAS DE RESISTENCIA -->
-        <section id="sistemas">
-            <h2>Sistemas de Entrenamiento de Resistencia</h2>
-            
-            <h3 style="border-left: 4px solid var(--primary); padding-left: 10px;">Sistemas Continuos</h3>
-            <div class="systems-grid">
-                <div class="system-card">
-                    <h4>1. Cross-Paseo</h4>
-                    <p>Ideal para iniciación o recuperación. Intercala tramos de marcha (andar rápido) con tramos de carrera muy suave (trote).</p>
-                    <span class="fc">FC: 110 - 130 lpm (Z1 - Z2)</span>
-                    <div class="example"><strong>Ejemplo:</strong> 3 min caminando rápido + 2 min trote suave. Repetir durante 40 minutos en un parque.</div>
-                </div>
-                <div class="system-card">
-                    <h4>2. Carrera Continua Uniforme</h4>
-                    <p>Ritmo constante sin pausas, sin cambios de intensidad. Trabaja la base aeróbica fundamental.</p>
-                    <span class="fc">FC: 130 - 150 lpm (Z2 - Z3)</span>
-                    <div class="example"><strong>Ejemplo:</strong> Correr 45 minutos a ritmo constante de 6:00 min/km en terreno llano.</div>
-                </div>
-                <div class="system-card">
-                    <h4>3. Fartlek</h4>
-                    <p>Juego de velocidades. Carrera continua pero introduciendo cambios de ritmo dictados por el terreno o por el tiempo.</p>
-                    <span class="fc">FC: 140 - 180 lpm (Z3 - Z5)</span>
-                    <div class="example"><strong>Ejemplo:</strong> 20 min de carrera continua + 10x(1 min rápido + 1 min suave) + 5 min trote.</div>
-                </div>
-                <div class="system-card">
-                    <h4>4. Entrenamiento Total</h4>
-                    <p>Combina desplazamientos a diferentes ritmos con paradas para realizar ejercicios de fuerza o flexibilidad utilizando el entorno natural.</p>
-                    <span class="fc">FC: 130 - 170 lpm (Fluctuante)</span>
-                    <div class="example"><strong>Ejemplo:</strong> 10 min trote + 15 flexiones y 20 sentadillas + 5 min trote + dominadas en rama.</div>
+                        <div class="relative h-40 bg-slate-50 rounded-xl mb-4 border border-slate-200 flex items-center justify-center overflow-hidden p-4">
+                            <svg viewBox="0 0 400 150" class="w-full h-full overflow-visible">
+                                <line x1="0" y1="80" x2="400" y2="80" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                <text x="0" y="75" font-size="10" fill="#64748b">Nivel Inicial</text>
+                                <path d="M 20 80 C 60 80, 80 140, 120 140 C 160 140, 180 30, 240 30 C 300 30, 320 80, 380 80" fill="none" stroke="#3b82f6" stroke-width="4" stroke-linecap="round" />
+                                <text x="120" y="155" font-size="10" font-weight="bold" fill="#ef4444" text-anchor="middle">Fatiga</text>
+                                <text x="175" y="110" font-size="10" font-weight="bold" fill="#eab308" text-anchor="middle">Recuperación</text>
+                                <text x="240" y="20" font-size="10" font-weight="bold" fill="#10b981" text-anchor="middle">¡Supercompensación!</text>
+                                <line x1="240" y1="30" x2="240" y2="150" stroke="#10b981" stroke-width="2" stroke-dasharray="2" />
+                            </svg>
+                        </div>
+                        <div class="text-xs text-slate-600 bg-blue-50 p-3 rounded-xl border border-blue-100 space-y-2">
+                            <p><strong>El arte de planificar:</strong> El nuevo entrenamiento debe aplicarse justo en la línea verde punteada (pico de supercompensación).</p>
+                            <ul class="list-disc pl-4">
+                                <li>Si entrenas <strong>antes</strong> de recuperarte: Agotamiento crónico.</li>
+                                <li>Si entrenas <strong>muy tarde</strong>: Pierdes la mejora (vuelves al nivel inicial).</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <h3 style="border-left: 4px solid var(--secondary); padding-left: 10px; margin-top: 2rem;">Sistemas Fraccionados</h3>
-            <div class="systems-grid">
-                <div class="system-card">
-                    <h4>1. Interválico</h4>
-                    <p>Pausas incompletas (la FC no baja del todo, ej. 120 lpm). Genera tolerancia a la fatiga y mejora cardiovascular alta.</p>
-                    <span class="fc">FC: 160-190 lpm (Pausa baja a 120)</span>
-                    <div class="example"><strong>Ejemplo:</strong> 10 x 400m al 85%. Descanso: 1 minuto (o bajar a 120 lpm).</div>
-                </div>
-                <div class="system-card">
-                    <h4>2. De Repeticiones</h4>
-                    <p>Pausas completas (recuperación total). Máxima intensidad en el esfuerzo. Mejora la velocidad y potencia.</p>
-                    <span class="fc">FC: 180-200 lpm (Pausa total)</span>
-                    <div class="example"><strong>Ejemplo:</strong> 4 x 200m al 95-100%. Descanso: 4-5 minutos (recuperación total).</div>
-                </div>
-            </div>
-        </section>
+            <!-- PRINCIPIOS AMPLIADOS -->
+            <div class="bg-slate-900 text-white p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl">
+                <h3 class="font-heading font-bold text-2xl mb-2 text-school-gold" data-es="Principios Fundamentales del Entrenamiento" data-en="Fundamental Training Principles">Principios Fundamentales del Entrenamiento</h3>
+                <p class="text-slate-400 text-sm mb-6" data-es="Reglas pedagógicas y fisiológicas que guían la aplicación de la carga." data-en="Pedagogical and physiological rules guiding load application.">Reglas pedagógicas y fisiológicas que guían la aplicación de la carga en base científica.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <strong class="text-amber-400 block mb-1 text-base"><i class="fa-solid fa-fingerprint mr-2"></i>1. Individualización</strong>
+                        <p class="text-slate-300 mb-2">Cada persona responde de manera diferente al mismo estímulo debido a la genética, edad, nutrición o nivel previo.</p>
+                        <p class="text-xs text-slate-400"><em>Ejemplo: El mismo programa de flexiones que a tu compañero le resulta fácil, a ti puede generarte unas agujetas severas. El plan debe adaptarse a TI.</em></p>
+                    </div>
+                    
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <strong class="text-blue-400 block mb-1 text-base"><i class="fa-solid fa-arrow-trend-up mr-2"></i>2. Progresión (Sobrecarga)</strong>
+                        <p class="text-slate-300 mb-2">La carga debe elevarse gradualmente. Si siempre haces lo mismo, el cuerpo se adapta y el estímulo se vuelve "de mantenimiento".</p>
+                        <p class="text-xs text-slate-400"><em>Ejemplo: Si esta semana corres 15 min, la semana que viene corre 18 min. O en fuerza, subir de levantar 10kg a 12kg.</em></p>
+                    </div>
 
-        <!-- SECCIÓN 3: BIBLIOTECA DE EJERCICIOS -->
-        <section id="ejercicios">
-            <h2>Biblioteca de Ejercicios</h2>
-            <p>Filtra por patrón de movimiento anatómico fundamental:</p>
-            
-            <div class="filters" id="btnContainer">
-                <button class="filter-btn active" onclick="filterSelection('all')">Todos</button>
-                <button class="filter-btn" onclick="filterSelection('rodilla')">Dominante Rodilla</button>
-                <button class="filter-btn" onclick="filterSelection('cadera')">Dominante Cadera</button>
-                <button class="filter-btn" onclick="filterSelection('traccion')">Tracción</button>
-                <button class="filter-btn" onclick="filterSelection('empuje')">Empuje</button>
-                <button class="filter-btn" onclick="filterSelection('core')">Core</button>
-            </div>
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <strong class="text-emerald-400 block mb-1 text-base"><i class="fa-solid fa-scale-balanced mr-2"></i>3. Alternancia (Relación T/D)</strong>
+                        <p class="text-slate-300 mb-2">Alternar periodos de Trabajo (T) con Descanso (D) para permitir la regeneración y supercompensación.</p>
+                        <p class="text-xs text-slate-400"><em>Ejemplo: No entrenar pierna pesada dos días seguidos. Hacer tren inferior el Lunes y tren superior el Martes.</em></p>
+                    </div>
 
-            <div class="exercise-grid">
-                <!-- Rodilla -->
-                <div class="exercise-card filter-item rodilla">Sentadilla Trasera <span>Dominante Rodilla</span></div>
-                <div class="exercise-card filter-item rodilla">Sentadilla Búlgara <span>Dominante Rodilla</span></div>
-                <div class="exercise-card filter-item rodilla">Prensa de Piernas <span>Dominante Rodilla</span></div>
-                <div class="exercise-card filter-item rodilla">Zancadas (Lunges) <span>Dominante Rodilla</span></div>
-                
-                <!-- Cadera -->
-                <div class="exercise-card filter-item cadera">Peso Muerto Convencional <span>Dominante Cadera</span></div>
-                <div class="exercise-card filter-item cadera">Peso Muerto Rumano <span>Dominante Cadera</span></div>
-                <div class="exercise-card filter-item cadera">Hip Thrust <span>Dominante Cadera</span></div>
-                <div class="exercise-card filter-item cadera">Kettlebell Swing <span>Dominante Cadera</span></div>
-                
-                <!-- Tracción -->
-                <div class="exercise-card filter-item traccion">Dominadas (Pull-ups) <span>Tracción Vertical</span></div>
-                <div class="exercise-card filter-item traccion">Remo con Barra <span>Tracción Horizontal</span></div>
-                <div class="exercise-card filter-item traccion">Jalón al Pecho <span>Tracción Vertical</span></div>
-                <div class="exercise-card filter-item traccion">Remo en Polea Baja <span>Tracción Horizontal</span></div>
-                
-                <!-- Empuje -->
-                <div class="exercise-card filter-item empuje">Press de Banca <span>Empuje Horizontal</span></div>
-                <div class="exercise-card filter-item empuje">Press Militar <span>Empuje Vertical</span></div>
-                <div class="exercise-card filter-item empuje">Flexiones (Push-ups) <span>Empuje Horizontal</span></div>
-                <div class="exercise-card filter-item empuje">Fondos (Dips) <span>Empuje Vertical</span></div>
-                
-                <!-- Core -->
-                <div class="exercise-card filter-item core">Plancha Abdominal (Plank) <span>Core - Anti-extensión</span></div>
-                <div class="exercise-card filter-item core">Press Pallof <span>Core - Anti-rotación</span></div>
-                <div class="exercise-card filter-item core">Paseo del Granjero <span>Core - Anti-flexión lateral</span></div>
-                <div class="exercise-card filter-item core">Rueda Abdominal (Ab Wheel) <span>Core - Anti-extensión</span></div>
-            </div>
-        </section>
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <strong class="text-purple-400 block mb-1 text-base"><i class="fa-solid fa-bullseye mr-2"></i>4. Especificidad</strong>
+                        <p class="text-slate-300 mb-2">Las adaptaciones son específicas al tipo de estímulo aplicado, al grupo muscular usado y al sistema energético empleado.</p>
+                        <p class="text-xs text-slate-400"><em>Ejemplo: Si quieres mejorar tu salto en baloncesto, hacer bicicleta estática no te servirá; debes hacer trabajo de fuerza y pliometría (saltos).</em></p>
+                    </div>
 
-        <!-- SECCIÓN 4: CALCULADORAS -->
-        <section id="calculadoras">
-            <h2>Calculadora: Fórmula de Tanaka y Zonas de Karvonen</h2>
-            <div class="calc-container">
-                <div class="calc-inputs">
-                    <p>Introduce los datos reales del alumno para obtener sus zonas exactas de entrenamiento.</p>
-                    <label>Edad (Años)</label>
-                    <input type="number" id="edad" placeholder="Ej: 25">
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <strong class="text-red-400 block mb-1 text-base"><i class="fa-solid fa-rotate-left mr-2"></i>5. Reversibilidad</strong>
+                        <p class="text-slate-300 mb-2">"Lo que no se usa, se pierde". Si se interrumpe el entrenamiento, las adaptaciones conseguidas desaparecen con el tiempo.</p>
+                        <p class="text-xs text-slate-400"><em>Ejemplo: La pérdida de capacidad cardiovascular y fuerza muscular que sufres tras el parón de las vacaciones de verano.</em></p>
+                    </div>
                     
-                    <label>Frecuencia Cardíaca en Reposo (lpm)</label>
-                    <input type="number" id="fcReposo" placeholder="Ej: 60">
-                    
-                    <button class="calc-btn" onclick="calcularZonas()">Calcular Mis Zonas</button>
-                </div>
-                
-                <div class="calc-results">
-                    <h3>Resultados Fisiológicos</h3>
-                    <p><strong>FC Máxima (Tanaka):</strong> <span id="resFcMax" style="color:var(--primary); font-weight:bold; font-size:1.2rem;">--</span> lpm</p>
-                    <p style="font-size: 0.85rem; color:var(--gray);">Fórmula: 208 - (0.7 × Edad)</p>
-                    
-                    <table class="zone-table">
-                        <thead>
-                            <tr>
-                                <th>Zona</th>
-                                <th>% Karvonen</th>
-                                <th>Rango (lpm)</th>
-                                <th>Objetivo</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaZonas">
-                            <tr class="z1"><td>Z1</td><td>50-60%</td><td>-- / --</td><td>Calentamiento / Recuperación</td></tr>
-                            <tr class="z2"><td>Z2</td><td>60-70%</td><td>-- / --</td><td>Base aeróbica / Quema grasa</td></tr>
-                            <tr class="z3"><td>Z3</td><td>70-80%</td><td>-- / --</td><td>Capacidad aeróbica</td></tr>
-                            <tr class="z4"><td>Z4</td><td>80-90%</td><td>-- / --</td><td>Umbral Anaeróbico</td></tr>
-                            <tr class="z5"><td>Z5</td><td>90-100%</td><td>-- / --</td><td>Potencia / VO2 Max</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 5: GUÍA PROMPTS -->
-        <section id="prompts">
-            <h2>Generador de Prompts para IA</h2>
-            <p>Huye del genérico "nivel intermedio". Rellena estos datos fisiológicos y de rendimiento para generar un prompt detallado que puedas usar en ChatGPT o Claude para pedir rutinas personalizadas.</p>
-            
-            <div class="calc-container" style="margin-top: 1.5rem;">
-                <div class="calc-inputs prompt-builder">
-                    <label>Objetivo Principal</label>
-                    <input type="text" id="p_obj" placeholder="Ej: Correr mis primeros 10k en 50 min">
-                    
-                    <label>Ritmo de Carrera Actual (min/km)</label>
-                    <input type="text" id="p_ritmo" placeholder="Ej: 5:45 min/km">
-                    
-                    <label>Tiempo Máximo Soportado a ese ritmo</label>
-                    <input type="text" id="p_tiempo" placeholder="Ej: 35 minutos continuos">
-                    
-                    <label>Días disponibles por semana</label>
-                    <input type="number" id="p_dias" placeholder="Ej: 3">
-                    
-                    <button class="calc-btn" onclick="generarPrompt()">Generar Prompt Profesional</button>
-                </div>
-                
-                <div class="calc-results">
-                    <h3>Tu Prompt Copiable</h3>
-                    <div id="resultadoPrompt" class="prompt-result">
-// Rellena los datos a la izquierda para generar tu prompt experto.
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <strong class="text-cyan-400 block mb-1 text-base"><i class="fa-solid fa-layer-group mr-2"></i>6. Variedad</strong>
+                        <p class="text-slate-300 mb-2">Variar los ejercicios y métodos para evitar la monotonía psicológica y el estancamiento motor del sistema nervioso.</p>
+                        <p class="text-xs text-slate-400"><em>Ejemplo: Para mejorar el abdomen (core), en lugar de hacer siempre crunches, alternar con planchas isométricas y rueda abdominal.</em></p>
                     </div>
                 </div>
             </div>
         </section>
-    </div>
 
+        <!-- SECTION 2: PLANIFICACIÓN Y CARGA -->
+        <section id="planificacion" class="scroll-mt-20">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-brand-500/10 text-brand-600 rounded-2xl text-xl font-bold">🗺️</span>
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900" data-es="2. Estructuración y Magnitudes de Carga" data-en="2. Structure & Load">2. Estructuración y Carga</h2>
+                    <p class="text-slate-500 text-sm mt-1" data-es="Cómo organizar el tiempo y medir el esfuerzo." data-en="How to organize time and measure effort.">Cómo organizar el tiempo de entrenamiento y medir matemáticamente el esfuerzo.</p>
+                </div>
+            </div>
+            
+            <h3 class="font-bold text-lg text-slate-800 mb-4">La Estructura del Tiempo (Periodización)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center mb-8">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 h-full flex flex-col justify-center">
+                    <h4 class="font-bold text-emerald-600 text-lg">Macrociclo</h4>
+                    <p class="text-xs text-slate-600 mt-2"><strong>Ciclo a Largo Plazo</strong><br>(Varios meses a 1 Año)</p>
+                    <p class="text-[11px] text-slate-500 mt-2 italic bg-slate-50 p-2 rounded">Ej: Tu curso completo de 1º de Bachillerato o la temporada de un atleta para las Olimpiadas.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 h-full flex flex-col justify-center">
+                    <h4 class="font-bold text-blue-600 text-lg">Mesociclo</h4>
+                    <p class="text-xs text-slate-600 mt-2"><strong>Ciclo a Medio Plazo</strong><br>(3 a 6 Semanas)</p>
+                    <p class="text-[11px] text-slate-500 mt-2 italic bg-slate-50 p-2 rounded">Ej: Una Unidad Didáctica de un mes enfocada exclusivamente en ganar fuerza muscular.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 h-full flex flex-col justify-center">
+                    <h4 class="font-bold text-amber-600 text-lg">Microciclo</h4>
+                    <p class="text-xs text-slate-600 mt-2"><strong>Ciclo a Corto Plazo</strong><br>(Generalmente 1 Semana)</p>
+                    <p class="text-[11px] text-slate-500 mt-2 italic bg-slate-50 p-2 rounded">Ej: Los 3 días (Lunes, Miércoles y Viernes) que decides salir a entrenar esta semana.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-800 h-full flex flex-col justify-center">
+                    <h4 class="font-bold text-white text-lg">Sesión</h4>
+                    <p class="text-xs text-slate-400 mt-2"><strong>Unidad Diaria</strong><br>(45 min - 2 horas)</p>
+                    <p class="text-[11px] text-slate-300 mt-2 italic bg-slate-800 p-2 rounded">Ej: Tu clase de hoy (consta de Calentamiento, Parte Principal y Vuelta a la calma).</p>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg text-slate-800 mb-4">Magnitudes de la Carga (¿Cuánto y a qué nivel entrenamos?)</h3>
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold text-base text-slate-900 mb-1">Volumen <span class="text-xs font-normal text-slate-500">(Cantidad)</span></h4>
+                    <p class="text-sm text-slate-600">Representa la cantidad total de trabajo realizado. Es el aspecto cuantitativo.</p>
+                    <ul class="text-xs text-slate-500 mt-3 space-y-1 list-disc pl-4">
+                        <li><strong>En Resistencia:</strong> Tiempo (ej. 45 min) o Distancia (ej. 10 Km).</li>
+                        <li><strong>En Fuerza:</strong> Series $\times$ Repeticiones $\times$ Peso (ej. 3 series de 10 reps con 20kg).</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-red-500 pl-4">
+                    <h4 class="font-bold text-base text-slate-900 mb-1">Intensidad <span class="text-xs font-normal text-slate-500">(Calidad)</span></h4>
+                    <p class="text-sm text-slate-600">Representa el grado de esfuerzo, la rapidez o dificultad del trabajo. Es el aspecto cualitativo.</p>
+                    <ul class="text-xs text-slate-500 mt-3 space-y-1 list-disc pl-4">
+                        <li><strong>En Resistencia:</strong> Ritmo (ej. 5 min/km), Velocidad (ej. 12 km/h) o Frecuencia Cardíaca (ej. 160 ppm).</li>
+                        <li><strong>En Fuerza:</strong> % del Peso Máximo (1RM) o Percepción de Esfuerzo (RPE/RIR).</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-emerald-500 pl-4">
+                    <h4 class="font-bold text-base text-slate-900 mb-1">Recuperación / Densidad</h4>
+                    <p class="text-sm text-slate-600">El tiempo de descanso entre estímulos para regenerar (pausa).</p>
+                    <ul class="text-xs text-slate-500 mt-3 space-y-1 list-disc pl-4">
+                        <li><strong>Activa:</strong> Caminar suave o pedalear lento (ayuda a reciclar ácido láctico).</li>
+                        <li><strong>Pasiva:</strong> Parar por completo o sentarse.</li>
+                        <li><strong>Densidad:</strong> Relación entre el tiempo trabajando y descansando (ej. trabajar 1 min y descansar 1 min).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: SISTEMAS DE ENTRENAMIENTO -->
+        <section id="sistemas" class="scroll-mt-20">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="p-3 bg-red-500/10 text-red-600 rounded-2xl text-xl font-bold">🏃</span>
+                <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900" data-es="3. Sistemas de Entrenamiento" data-en="3. Training Systems">3. Sistemas de Entrenamiento</h2>
+            </div>
+
+            <!-- RESISTENCIA -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8">
+                <h3 class="font-heading font-bold text-2xl text-slate-900 mb-2 border-b pb-4"><i class="fa-solid fa-heart-pulse text-red-500 mr-2"></i>Sistemas de Entrenamiento de la Resistencia</h3>
+                <p class="text-sm text-slate-600 mb-6">Mejoran la capacidad del cuerpo para mantener un esfuerzo durante un tiempo prolongado, incidiendo en las vías aeróbica y anaeróbica.</p>
+                
+                <div class="space-y-6">
+                    <!-- 1. Continuos -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                        <h4 class="font-bold text-lg text-slate-800 mb-3 bg-blue-100 text-blue-800 inline-block px-3 py-1 rounded-lg">1. Entrenamientos Continuos</h4>
+                        <p class="text-sm text-slate-600 mb-4">Cargas de trabajo sin descanso. Sirven fundamentalmente para la resistencia aeróbica (y algunos anaeróbica).</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <!-- Caminar -->
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                <h5 class="font-bold text-slate-900 mb-1">a) Caminar (Cross-paseo)</h5>
+                                <p class="text-xs text-slate-600 mb-3">Andar a paso ligero o combinar marcha lenta/rápida. Ideal para personas sedentarias o con sobrepeso. Activación básica aeróbica.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                    <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> No menos de 30'</div>
+                                    <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> 100-130 ppm</div>
+                                    <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> No existe</div>
+                                </div>
+                            </div>
+                            <!-- Carrera Continua -->
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                <h5 class="font-bold text-slate-900 mb-1">b) Carrera Continua</h5>
+                                <p class="text-xs text-slate-600 mb-3">Correr con intensidad moderada de forma prolongada sin intervalos de descanso.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                    <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> No menos de 30'</div>
+                                    <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> 140-160 ppm</div>
+                                    <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> No existe</div>
+                                </div>
+                            </div>
+                            <!-- Fartlek -->
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                <h5 class="font-bold text-slate-900 mb-1">c) Fartlek</h5>
+                                <p class="text-xs text-slate-600 mb-3">Cambios de ritmo por diferentes terrenos (subidas, bajadas, llano) durante un periodo largo.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                    <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> No menos de 30'</div>
+                                    <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> Ritmo variable (130-170 ppm)</div>
+                                    <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> No existe</div>
+                                </div>
+                            </div>
+                            <!-- Entrenamiento Total -->
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                <h5 class="font-bold text-slate-900 mb-1">d) Entrenamiento Total</h5>
+                                <p class="text-xs text-slate-600 mb-3">Combinación de carrera continua, fartlek y ejercicios gimnásticos. Trabaja resistencia y fuerza-resistencia.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                    <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> No menos de 30'</div>
+                                    <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> Variable (120-180 ppm)</div>
+                                    <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> No existe (breve activo entre series)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Fraccionados -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                        <h4 class="font-bold text-lg text-slate-800 mb-3 bg-red-100 text-red-800 inline-block px-3 py-1 rounded-lg">2. Entrenamientos Fraccionados</h4>
+                        <p class="text-sm text-slate-600 mb-4">Intercala periodos de esfuerzo intensivo con descansos, dividiendo el volumen total. Mejoran la resistencia anaeróbica.</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <!-- Interval -->
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                <h5 class="font-bold text-slate-900 mb-1">a) Interval Training</h5>
+                                <p class="text-xs text-slate-600 mb-3">Esfuerzos de intensidad submáxima en 100-400m separados por descansos incompletos.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                    <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> Según distancia (cortas = mayor vol)</div>
+                                    <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> 75-90% (Supera umbral)</div>
+                                    <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> Incompleta (120-140 ppm)</div>
+                                </div>
+                            </div>
+                            <!-- Repeticiones -->
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                                <h5 class="font-bold text-slate-900 mb-1">b) Entrenamiento de Repeticiones</h5>
+                                <p class="text-xs text-slate-600 mb-3">Esfuerzos de máxima intensidad separados por recuperaciones casi completas.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                    <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> Según distancia (cortas = mayor vol)</div>
+                                    <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> 95-100% (Máxima)</div>
+                                    <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> Completa (Max 120-130 ppm)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Mixtos -->
+                    <div class="bg-purple-50 rounded-2xl p-5 border border-purple-200">
+                        <h4 class="font-bold text-lg text-purple-900 mb-3 bg-purple-200 inline-block px-3 py-1 rounded-lg">3. Entrenamientos Mixtos</h4>
+                        <p class="text-sm text-slate-700 mb-4">Combina partes continuas y discontinuas.</p>
+                        
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-purple-100">
+                            <h5 class="font-bold text-slate-900 mb-1">a) Circuit Training</h5>
+                            <p class="text-xs text-slate-600 mb-3">Realizar una serie de ejercicios por estaciones. Normalmente busca trabajar los principales grupos musculares secuencialmente.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                                <div class="bg-blue-50 text-blue-800 p-2 rounded"><strong class="block">Volumen</strong> 8-12 estaciones (30-45"), 2-3 vueltas</div>
+                                <div class="bg-red-50 text-red-800 p-2 rounded"><strong class="block">Intensidad</strong> 140-160 ppm (Depende objetivo)</div>
+                                <div class="bg-emerald-50 text-emerald-800 p-2 rounded"><strong class="block">Recuperación</strong> Nula (entre estaciones). 2-3' (entre vueltas)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUERZA -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8">
+                <h3 class="font-heading font-bold text-2xl text-slate-900 mb-4 border-b pb-4"><i class="fa-solid fa-dumbbell text-blue-600 mr-2"></i>Sistemas de Entrenamiento de la Fuerza</h3>
+                
+                <!-- Clasificación General Fuerza -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <strong class="block text-slate-800 mb-1">1. Continuos</strong>
+                        <p class="text-xs text-slate-600 mb-1">Cargas sin descanso prolongado.</p>
+                        <p class="text-xs text-slate-500"><em>Ej. Entrenamiento total (ver sección Resistencia). Combina fuerza gimnástica con carrera continua.</em></p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <strong class="block text-slate-800 mb-1">2. Fraccionados</strong>
+                        <p class="text-xs text-slate-600 mb-2">Permiten máxima intensidad (subdividiendo el volumen).</p>
+                        <ul class="text-[11px] text-slate-500 space-y-2">
+                            <li><strong>a) Cuestas:</strong> V: ≥20' | I: Alta (160-180+ ppm) | R: Bajando al trote (2-3' entre series). <em>Largas=F.Resistencia, Cortas=F.Explosiva.</em></li>
+                            <li><strong>b) Repeticiones:</strong><br> - F. Resistencia: 15-30 reps (40-60%).<br> - F. Explosiva: 6-10 reps (60-90%).<br> - F. Máxima: 1-4 reps (90-100%).</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <strong class="block text-slate-800 mb-1">3. Mixtos</strong>
+                        <p class="text-xs text-slate-600 mb-1">Combina dinámicas continuas y estáticas/fraccionadas.</p>
+                        <p class="text-xs text-slate-500 mb-2"><em>Ej. Circuit Training (ver sección Resistencia).</em></p>
+                        <div class="bg-blue-50 text-blue-800 p-2 rounded text-[11px]">
+                            <strong>Nota:</strong> Los multiformas, saltos y lanzamientos múltiples son muy comunes en circuitos o series para la fuerza.
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="font-bold text-lg text-slate-800 mb-4">Ejemplos Prácticos: Sesiones Completas (30-40 min)</h4>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Autocargas -->
+                    <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-person"></i></span>
+                            <strong class="text-slate-900 text-lg">Autocargas (Calistenia)</strong>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-3">Utilizar el propio peso corporal como resistencia a vencer. Trabaja el control motor.</p>
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex-grow">
+                            <div class="font-bold text-slate-800 mb-2 border-b border-slate-200 pb-1">📋 Sesión de Entrenamiento (35 min)</div>
+                            <ul class="space-y-2 text-slate-600">
+                                <li><span class="font-bold text-amber-600">5' Calentamiento:</span> Movilidad articular (rotaciones de hombros, cadera) y 2 min de trote suave en el sitio o jumping jacks.</li>
+                                <li><span class="font-bold text-red-600">25' Parte Principal (Circuito 4 Vueltas):</span>
+                                    <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-500">
+                                        <li>15 Sentadillas al aire</li>
+                                        <li>10-12 Flexiones (apoyo en rodillas si es necesario)</li>
+                                        <li>15 Zancadas (Lunges) alternas</li>
+                                        <li>20 Segundos de Plancha Isométrica</li>
+                                    </ul>
+                                    <em class="block mt-1 text-[10px] text-slate-400">Recuperación: 15" entre ejercicios / 2 minutos entre vueltas.</em>
+                                </li>
+                                <li><span class="font-bold text-emerald-600">5' Vuelta a la Calma:</span> Estiramientos estáticos de pecho, cuádriceps y glúteo.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Sobrecargas -->
+                    <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-weight-hanging"></i></span>
+                            <strong class="text-slate-900 text-lg">Sobrecargas (Pesos Libres/Máquinas)</strong>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-3">Añadir resistencia externa (mancuernas, gomas). Aísla el músculo y permite progresión exacta.</p>
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex-grow">
+                            <div class="font-bold text-slate-800 mb-2 border-b border-slate-200 pb-1">📋 Sesión de Entrenamiento (40 min) - Enfoque Hipertrofia</div>
+                            <ul class="space-y-2 text-slate-600">
+                                <li><span class="font-bold text-amber-600">5' Calentamiento:</span> Series de aproximación (mismo ejercicio con muy poco peso).</li>
+                                <li><span class="font-bold text-red-600">30' Parte Principal (Por Series):</span>
+                                    <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-500">
+                                        <li><strong>Press de Banca (Mancuernas):</strong> 3 series x 10 repeticiones.</li>
+                                        <li><strong>Remo con Goma o Mancuerna:</strong> 3 series x 12 repeticiones.</li>
+                                        <li><strong>Prensa de Piernas o Sentadilla con peso:</strong> 3 series x 10 repeticiones.</li>
+                                        <li><strong>Curl de Bíceps:</strong> 2 series x 15 repeticiones.</li>
+                                    </ul>
+                                    <em class="block mt-1 text-[10px] text-slate-400">Recuperación: 90" estricto (pasivo) entre cada serie para recuperar ATP.</em>
+                                </li>
+                                <li><span class="font-bold text-emerald-600">5' Vuelta a la Calma:</span> Paseo suave y movilidad.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Pliometría -->
+                    <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-bolt"></i></span>
+                            <strong class="text-slate-900 text-lg">Pliometría (Fuerza Explosiva)</strong>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-3">Aprovecha el "efecto muelle" del músculo. Contracción excéntrica frenando seguida de concéntrica explosiva.</p>
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex-grow">
+                            <div class="font-bold text-slate-800 mb-2 border-b border-slate-200 pb-1">📋 Sesión de Entrenamiento (30 min) - Tren Inferior</div>
+                            <ul class="space-y-2 text-slate-600">
+                                <li><span class="font-bold text-amber-600">8' Calentamiento:</span> Fundamental calentar bien tendones. Saltos a la comba (3'), movilidad dinámica de tobillo y rodilla (5').</li>
+                                <li><span class="font-bold text-red-600">18' Parte Principal (Multisaltos):</span>
+                                    <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-500">
+                                        <li><strong>Saltos al Cajón (Box Jumps):</strong> 4 series x 5 saltos.</li>
+                                        <li><strong>Saltos Reactivos (Drop Jumps):</strong> Dejarse caer de un escalón bajo y rebotar alto al instante. 3 series x 6 saltos.</li>
+                                        <li><strong>Zancadas con salto alterno:</strong> 3 series x 10 saltos (5 por pierna).</li>
+                                    </ul>
+                                    <em class="block mt-1 text-[10px] text-slate-400">Recuperación: Larga y completa (2-3 min entre series) buscando máxima calidad explosiva, no fatiga.</em>
+                                </li>
+                                <li><span class="font-bold text-emerald-600">4' Vuelta a la Calma:</span> Caminar y relajación muscular profunda.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Isometría -->
+                    <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-anchor"></i></span>
+                            <strong class="text-slate-900 text-lg">Entrenamiento Isométrico</strong>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-3">Tensión sin movimiento (longitud muscular no cambia). Excelente para Core y rehabilitación.</p>
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex-grow">
+                            <div class="font-bold text-slate-800 mb-2 border-b border-slate-200 pb-1">📋 Sesión de Entrenamiento (30 min) - Core & Estabilidad</div>
+                            <ul class="space-y-2 text-slate-600">
+                                <li><span class="font-bold text-amber-600">5' Calentamiento:</span> Movilidad espinal (Gato-Camello), rotaciones de tronco lentas.</li>
+                                <li><span class="font-bold text-red-600">20' Parte Principal (Circuito por Tiempos):</span>
+                                    <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-500">
+                                        <li><strong>Plancha Frontal (Plank):</strong> 45 segundos.</li>
+                                        <li><strong>Silla Isométrica (Wall Sit):</strong> Espalda apoyada en pared, piernas 90º. 45 segundos.</li>
+                                        <li><strong>Plancha Lateral:</strong> 30 segundos (cada lado).</li>
+                                        <li><strong>Superman estático:</strong> Tumbado boca abajo, elevar brazos/piernas y mantener. 30 segundos.</li>
+                                    </ul>
+                                    <em class="block mt-1 text-[10px] text-slate-400">Recuperación: 30" de descanso entre posturas. Completar 3 rondas enteras.</em>
+                                </li>
+                                <li><span class="font-bold text-emerald-600">5' Vuelta a la Calma:</span> Posición del niño (Yoga), estiramiento abdominal (Cobra).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BASE DE DATOS DE EJERCICIOS (Mantenida intacta) -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-t pt-6">
+                    <div>
+                        <h4 class="font-heading font-bold text-lg text-slate-900">Base de Datos de Patrones Motores</h4>
+                        <p class="text-slate-500 text-xs mt-1">Agrupamos los ejercicios por el "patrón de movimiento" (qué hace el cuerpo) y no solo por músculo aislado.</p>
+                    </div>
+
+                    <!-- Botones de Filtro -->
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold" id="exerciseFilterBtns">
+                        <button class="filter-btn active px-3 py-1.5 rounded-xl border border-slate-300" data-filter="all">Todos</button>
+                        <button class="filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-filter="empuje">Empuje</button>
+                        <button class="filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-filter="traccion">Tracción</button>
+                        <button class="filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-filter="pierna">Pierna</button>
+                        <button class="filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-filter="core">Core</button>
+                    </div>
+                </div>
+
+                <!-- Grid de Ejercicios -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="exerciseGrid">
+                    <!-- Empuje -->
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="empuje">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Flexiones (Push-ups)</h4>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded">Empuje Horizontal</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Pectoral, Tríceps, Deltoides Anterior.</p>
+                            <p class="text-xs text-slate-500">Alejar el suelo de nosotros. Cuerpo recto como una tabla. <br><span class="text-red-500">❌ Error:</span> Hundir la cadera por falta de fuerza en core.</p>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="empuje">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Press Militar (Mancuernas)</h4>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded">Empuje Vertical</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Deltoides (Hombro), Tríceps.</p>
+                            <p class="text-xs text-slate-500">Empuje hacia arriba por encima de la cabeza. <br><span class="text-red-500">❌ Error:</span> Arquear excesivamente la zona lumbar (hiperextensión).</p>
+                        </div>
+                    </div>
+
+                    <!-- Tracción -->
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="traccion">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Remo Invertido</h4>
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-[10px] font-bold rounded">Tracción Horizontal</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Dorsal, Bíceps, Romboides.</p>
+                            <p class="text-xs text-slate-500">Tirar de un peso hacia el pecho (o llevar el pecho a una barra/TRX). <br><span class="text-red-500">❌ Error:</span> Encoger los hombros hacia las orejas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="traccion">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Dominadas (Pull-ups)</h4>
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-[10px] font-bold rounded">Tracción Vertical</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Dorsal Ancho, Bíceps.</p>
+                            <p class="text-xs text-slate-500">Tracción desde arriba hacia abajo. <br><span class="text-red-500">❌ Error:</span> Balanceo excesivo (kipping) si el objetivo es hipertrofia estricta.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pierna -->
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="pierna">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Sentadilla (Squat)</h4>
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">Pierna (Rodilla)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Cuádriceps (Énfasis), Glúteo.</p>
+                            <p class="text-xs text-slate-500">Máxima flexión de rodilla manteniendo espalda neutra. <br><span class="text-red-500">❌ Error:</span> Valgo de rodilla (las rodillas colapsan hacia dentro al subir).</p>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="pierna">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Peso Muerto Rumano</h4>
+                                <span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded">Pierna (Bisagra Cadera)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Glúteo, Isquiosurales (Posterior).</p>
+                            <p class="text-xs text-slate-500">Echar la cadera hacia atrás con rodillas semiflexionadas (movimiento de bisagra). <br><span class="text-red-500">❌ Error:</span> Doblar la espalda (chepa).</p>
+                        </div>
+                    </div>
+
+                    <!-- Core -->
+                    <div class="exercise-card bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between" data-category="core">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900">Plancha Abdominal</h4>
+                                <span class="px-2 py-0.5 bg-slate-700 text-white text-[10px] font-bold rounded">Core Isométrico (Anti-extensión)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-2"><strong>Musculatura:</strong> Transverso profundo, Recto Abdominal.</p>
+                            <p class="text-xs text-slate-500">Evitar que la gravedad hunda nuestra espalda (tensión constante y sin movimiento). <br><span class="text-red-500">❌ Error:</span> Elevar mucho el culo o hundir los riñones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLEXIBILIDAD -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8">
+                <h3 class="font-heading font-bold text-2xl text-slate-900 mb-4 border-b pb-4"><i class="fa-solid fa-child-reaching text-purple-500 mr-2"></i>Sistemas de Entrenamiento de la Flexibilidad</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                    <!-- Activos -->
+                    <div class="bg-purple-50 p-5 rounded-2xl border border-purple-100">
+                        <strong class="text-purple-900 text-lg block mb-3 border-b border-purple-200 pb-2">1. Métodos Activos</strong>
+                        <p class="text-xs text-slate-700 mb-4">El estiramiento se produce por la acción y fuerza de tus propios músculos, sin ayuda externa.</p>
+                        <ul class="space-y-4">
+                            <li>
+                                <h5 class="font-bold text-slate-800">a) Activo Estático</h5>
+                                <p class="text-xs text-slate-600 mt-1">Llegas a una posición y la mantienes, estirando el músculo lentamente, controlando la respiración. Límite sin dolor al menos 10".</p>
+                                <div class="bg-white p-3 rounded mt-2 border border-slate-100 text-[11px] text-slate-500">
+                                    <strong class="text-slate-700">📌 Stretching de Bob Anderson:</strong> Método activo estático más común. Adoptar posición correcta en 5s (sin dolor) y mantenerla de 20 a 30s. Luego regresar.
+                                </div>
+                            </li>
+                            <li>
+                                <h5 class="font-bold text-slate-800">b) Activo Balístico</h5>
+                                <p class="text-xs text-slate-600 mt-1">Estirar los músculos a través de movimientos. Ej: balancear la pierna hacia adelante y hacia atrás dinámicamente.</p>
+                            </li>
+                            <li>
+                                <h5 class="font-bold text-slate-800">c) Activo Asistido</h5>
+                                <p class="text-xs text-slate-600 mt-1">Cuando alcanzas una posición por ti mismo y una fuerza externa te ayuda a estirar un poco más.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Pasivos -->
+                    <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100">
+                        <strong class="text-blue-900 text-lg block mb-3 border-b border-blue-200 pb-2">2. Métodos Pasivos</strong>
+                        <p class="text-xs text-slate-700 mb-4">Implican una fuerza externa que ayuda a aumentar el rango de estiramiento (no hay contracción muscular principal para llegar a la pose).</p>
+                        <ul class="space-y-4">
+                            <li>
+                                <h5 class="font-bold text-slate-800">a) Pasivo</h5>
+                                <p class="text-xs text-slate-600 mt-1">Realizado gracias al peso corporal o gravedad (sin contracción muscular).</p>
+                            </li>
+                            <li>
+                                <h5 class="font-bold text-slate-800">b) Pasivo Asistido</h5>
+                                <p class="text-xs text-slate-600 mt-1">Realizado gracias a la presión externa de un compañero.</p>
+                            </li>
+                            <li>
+                                <h5 class="font-bold text-slate-800 text-base text-blue-800 mt-4 mb-2">c) FNP (Facilitación Neuromuscular Propioceptiva)</h5>
+                                <p class="text-xs text-slate-600 mb-2">El método más efectivo. Muy usado en rehabilitación. Se realiza con ayuda de un compañero siguiendo estas fases:</p>
+                                <ol class="list-decimal pl-4 space-y-2 text-xs text-slate-700 bg-white p-3 rounded border border-slate-100">
+                                    <li>Alcanzar el mayor grado de estiramiento, de forma pasiva.</li>
+                                    <li>Contra la oposición del compañero, realizar una contracción <strong>isométrica</strong> del músculo estirado durante 6 segundos (sin perder la posición).</li>
+                                    <li>Relajar y regresar al estiramiento pasivo logrando ahora un rango de estiramiento mayor.</li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CALCULADORA DE FC Y ZONAS -->
+        <section id="calculadora" class="scroll-mt-20">
+            <div class="bg-gradient-to-br from-emerald-900 to-teal-900 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-20 -bottom-20 opacity-10"><i class="fa-solid fa-heartbeat text-[300px]"></i></div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Panel de Entrada -->
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-heading font-extrabold mb-2" data-es="Calculadora de Zonas de Entrenamiento" data-en="Training Zones Calculator">Calculadora de Zonas de Entrenamiento</h2>
+                        <p class="text-emerald-100 text-xs mb-4" data-es="Calcula tu FC Máxima y tus Zonas objetivo." data-en="Calculate your HR Max and Target Zones.">
+                            Esta herramienta científica te ayudará a medir la magnitud de INTENSIDAD interna. 
+                        </p>
+                        <div class="bg-emerald-950/40 p-4 rounded-xl mb-6 text-xs text-emerald-100 border border-emerald-800 space-y-2">
+                            <p><strong>Fórmula de Tanaka (FC Max):</strong> Más precisa que la clásica 220-edad. <br><span class="math-inline text-emerald-300">FC Max = 208 - (0.7 \times Edad)</span></p>
+                            <p><strong>Fórmula de Karvonen (Zonas):</strong> Tiene en cuenta tu estado de forma usando la FC de Reposo (FCR). <br><span class="math-inline text-emerald-300">FC Objetivo = ((FC Max - FCR) \times \%) + FCR</span></p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Tu Edad:</label>
+                                <input type="number" id="calcAge" placeholder="Ej: 16" class="w-full bg-emerald-950/50 border border-emerald-700 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Frecuencia Cardíaca en Reposo (ppm):</label>
+                                <input type="number" id="calcHrRest" placeholder="Ej: 60" class="w-full bg-emerald-950/50 border border-emerald-700 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-400">
+                                <p class="text-[10px] text-emerald-300 mt-1">Mídela por la mañana nada más despertar (tómatela en el cuello o muñeca contando 15 seg y multiplicando por 4).</p>
+                            </div>
+                            <button id="btnCalculate" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-500/30">
+                                Calcular Mis Zonas
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel de Resultados -->
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                        <div class="text-center mb-6">
+                            <h4 class="text-xs text-emerald-200 uppercase tracking-wider font-bold">Frecuencia Cardíaca Máxima</h4>
+                            <div class="text-4xl font-heading font-black mt-1 text-white">
+                                <span id="resHrMax">--</span> <span class="text-lg font-normal text-emerald-200">ppm</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between items-center p-2 rounded bg-slate-500/30 border border-slate-500/50">
+                                <span class="font-bold">Z1: Regenerativo (50-60%)</span>
+                                <span id="resZ1" class="font-mono bg-slate-800/50 px-2 py-1 rounded">-- ppm</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 rounded bg-blue-500/30 border border-blue-500/50">
+                                <span class="font-bold">Z2: Aeróbico Extensivo (60-70%)</span>
+                                <span id="resZ2" class="font-mono bg-slate-800/50 px-2 py-1 rounded">-- ppm</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 rounded bg-emerald-500/30 border border-emerald-500/50">
+                                <span class="font-bold">Z3: Aeróbico Intensivo (70-80%)</span>
+                                <span id="resZ3" class="font-mono bg-slate-800/50 px-2 py-1 rounded">-- ppm</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 rounded bg-amber-500/30 border border-amber-500/50">
+                                <span class="font-bold">Z4: Umbral Anaeróbico (80-90%)</span>
+                                <span id="resZ4" class="font-mono bg-slate-800/50 px-2 py-1 rounded">-- ppm</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 rounded bg-red-500/30 border border-red-500/50">
+                                <span class="font-bold">Z5: Potencia Aeróbica/Anaeróbica (90-100%)</span>
+                                <span id="resZ5" class="font-mono bg-slate-800/50 px-2 py-1 rounded">-- ppm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: GUÍA PROMPTS IA (ENFOQUE ENTRENADOR PERSONAL) -->
+        <section id="prompts-ia" class="scroll-mt-20 mb-10">
+            <div class="bg-slate-950 p-6 sm:p-10 rounded-3xl text-white shadow-2xl border border-slate-800">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="p-3 bg-brand-500 text-slate-950 rounded-2xl text-xl font-black">🤖</span>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-white" data-es="Ingeniería de Prompts: El Entrenador de IA" data-en="Prompt Engineering: The AI Coach">Ingeniería de Prompts: El Entrenador de IA</h2>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-1" data-es="Para que una IA (como ChatGPT o Gemini) te de un plan real y que no te lesione, tienes que darle el contexto que exigiría un Entrenador Personal experto." data-en="For an AI (like ChatGPT or Gemini) to give you a real, injury-free plan, you must provide the context an expert Personal Trainer would demand.">Para que una IA (como ChatGPT o Gemini) te de un plan real, aplicable y que no te lesione, tienes que darle el contexto biomecánico y de rendimiento que exigiría un Entrenador Personal experto.</p>
+                    </div>
+                </div>
+
+                <!-- Input Variables para el Prompt -->
+                <h4 class="text-brand-400 font-bold mb-3 text-sm border-b border-slate-800 pb-2" data-es="Variables Críticas para la IA:" data-en="Critical Variables for AI:">Variables Críticas para la IA:</h4>
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl mb-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 text-[11px]">
+                    <div>
+                        <span class="text-slate-400 block mb-1">Edad</span>
+                        <code class="text-white bg-slate-950 px-2 py-1 rounded block border border-slate-800">[EDAD]</code>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block mb-1">FC Reposo</span>
+                        <code class="text-emerald-400 bg-slate-950 px-2 py-1 rounded block border border-emerald-900/50">[FC_REP]</code>
+                    </div>
+                    <div class="col-span-2">
+                        <span class="text-slate-400 block mb-1">Objetivo Físico</span>
+                        <code class="text-blue-400 bg-slate-950 px-2 py-1 rounded block border border-blue-900/50">[OBJETIVO]</code>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block mb-1">Días/Sem</span>
+                        <code class="text-amber-400 bg-slate-950 px-2 py-1 rounded block border border-amber-900/50">[DIAS_SEM]</code>
+                    </div>
+                    <div class="col-span-3">
+                        <span class="text-slate-400 block mb-1">Material y Entorno</span>
+                        <code class="text-purple-400 bg-slate-950 px-2 py-1 rounded block border border-purple-900/50">[MATERIAL]</code>
+                    </div>
+                    
+                    <!-- Nuevas variables de Condición Física -->
+                    <div class="col-span-3 lg:col-span-4 mt-2">
+                        <span class="text-slate-400 block mb-1 font-bold text-school-gold"><i class="fa-solid fa-gauge-high mr-1"></i> Nivel Actual (Resistencia)</span>
+                        <code class="text-school-gold bg-amber-900/20 px-2 py-1.5 rounded block border border-amber-700/50">[TIEMPO_MAX_CARRERA] / [RITMO_KM]</code>
+                        <span class="text-slate-500 text-[9px] mt-1 block" data-es="Ej: 'Aguanto 15 min de carrera continua a 6 min/km'." data-en="Ex: 'I can endure 15 min of continuous running at 6 min/km'.">Ej: "Aguanto 20 min de carrera continua a 6 min/km".</span>
+                    </div>
+                    
+                    <div class="col-span-5 lg:col-span-4 mt-2">
+                        <span class="text-slate-400 block mb-1 font-bold text-school-gold"><i class="fa-solid fa-weight-hanging mr-1"></i> Nivel Actual (Fuerza)</span>
+                        <code class="text-school-gold bg-amber-900/20 px-2 py-1.5 rounded block border border-amber-700/50">[1RM_PESO] o [MAX_REPS_AUTOCARGA]</code>
+                        <span class="text-slate-500 text-[9px] mt-1 block" data-es="Ej: 'Mi 1RM en Sentadilla es 60kg' o 'Hago máximo 12 flexiones seguidas'." data-en="Ex: 'My Squat 1RM is 60kg' or 'I can do max 12 push-ups in a row'.">Ej: "Mi 1RM en Press Banca es 50kg" o "Hago un máximo de 8 flexiones seguidas".</span>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute top-2 right-2">
+                        <button id="btnCopyPrompt" class="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold rounded-lg text-xs transition flex items-center gap-2">
+                            <i class="fa-solid fa-copy"></i> <span data-es="Copiar Prompt Experto" data-en="Copy Expert Prompt">Copiar Prompt Experto</span>
+                        </button>
+                    </div>
+                    <pre id="promptCodeBlock" class="text-xs font-mono text-slate-300 bg-slate-800/80 p-5 rounded-2xl border border-slate-700 whitespace-pre-wrap overflow-x-auto leading-relaxed">Actúa como un Entrenador Personal experto en Ciencias del Deporte y graduado en CAFD. Quiero que diseñes un MESOCICLO de 4 semanas para mí basado en principios científicos (Progresión, Alternancia y Especificidad).
+
+1. CONTEXTO BIOPSICOSOCIAL:
+- Edad: [EDAD] años | FC Reposo: [FC_REP] ppm
+- Objetivo principal: [OBJETIVO] (Ej. Aumentar masa muscular, preparar carrera 5K, salud general).
+- Disponibilidad: [DIAS_SEM] días a la semana (Máx 60 min/sesión).
+- Material/Entorno: [MATERIAL] (Ej. Gimnasio, parque calistenia, bandas elásticas en casa).
+- Lesiones: [LESIONES] (Ej. Ninguna / Dolor leve lumbar al flexionar).
+
+2. ESTADO DE CONDICIÓN FÍSICA ACTUAL (Línea Base):
+- En Resistencia (Capacidad Aeróbica): Actualmente mi máximo es [TIEMPO_MAX_CARRERA] (Ej. Aguanto 15 minutos de carrera continua a un ritmo suave).
+- En Fuerza (Métrica 1RM o Repeticiones): Mi marca actual es [1RM_PESO] o [MAX_REPS_AUTOCARGA] (Ej. Mi 1RM en sentadilla son 40kg / Mi máximo de flexiones estrictas son 10 reps).
+
+3. EXIGENCIAS CIENTÍFICAS DEL PLAN (OBLIGATORIO):
+- Progresión Semanal: Detalla cómo se aplica la sobrecarga progresiva en volumen o intensidad desde la Semana 1 a la Semana 4 para superar mi "Línea Base" actual.
+- Resistencia: Define las sesiones usando métodos específicos (Continuo Uniforme, Fartlek, Circuito Mixto o Interválico). Dame la intensidad en Zonas (Z1 a Z5) basadas en la Fórmula de Karvonen para mi edad y FC Reposo.
+- Fuerza: Agrupa los ejercicios por patrones de movimiento (Empuje, Tracción, Dominante de Rodilla/Cadera, Core). Usa el sistema adecuado (Autocargas, Sobrecargas, etc.). Marca la intensidad usando el carácter del esfuerzo (Escala RIR - Repeticiones en Reserva del 0 al 4).
+
+Entrégame la respuesta en una tabla estructurada por Semanas y Microciclos (Días), definiendo para cada ejercicio: Método/Patrón, Series, Repeticiones/Tiempo, Intensidad (RIR/Zona FC) y Recuperación entre series.</pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- SCRIPT 1: Filtro de Ejercicios ---
-        function filterSelection(c) {
-            let x = document.getElementsByClassName("filter-item");
-            if (c == "all") c = "";
-            for (let i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-                if (x[i].className.indexOf(c) > -1) {
-                    x[i].style.display = "block";
-                }
-            }
-            
-            // Botones visuales
-            let btns = document.getElementsByClassName("filter-btn");
-            for (let i = 0; i < btns.length; i++) {
-                btns[i].classList.remove("active");
-                if(btns[i].getAttribute("onclick").includes(c || 'all')) {
-                    btns[i].classList.add("active");
-                }
-            }
-        }
-        // Inicializar filtro
-        filterSelection("all");
+        // 1. Language Toggle Logic
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        let currentLang = 'es';
 
-        // --- SCRIPT 2: Calculadora Tanaka y Karvonen ---
-        function calcularZonas() {
-            const edad = parseInt(document.getElementById("edad").value);
-            const fcRep = parseInt(document.getElementById("fcReposo").value);
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            const elements = document.querySelectorAll('[data-es][data-en]');
+            elements.forEach(el => {
+                if (el.tagName === 'INPUT') {
+                    el.placeholder = el.getAttribute(`data-${currentLang}`);
+                } else {
+                    el.innerHTML = el.getAttribute(`data-${currentLang}`);
+                }
+            });
+            document.documentElement.lang = currentLang;
+        });
+
+        // 2. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 3. Exercise Library Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const exerciseCards = document.querySelectorAll('.exercise-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-slate-900', 'text-white');
+                    b.classList.add('bg-slate-100', 'text-slate-600');
+                    if(b === btn && !b.classList.contains('active')) {
+                        b.classList.remove('bg-slate-100', 'text-slate-600');
+                        b.classList.add('active', 'bg-slate-900', 'text-white');
+                    }
+                });
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                exerciseCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 4. Calculator Logic (Tanaka & Karvonen)
+        const btnCalculate = document.getElementById('btnCalculate');
+        
+        btnCalculate.addEventListener('click', () => {
+            const age = parseInt(document.getElementById('calcAge').value);
+            const hrRest = parseInt(document.getElementById('calcHrRest').value);
             
-            if(!edad || !fcRep) {
-                alert("Por favor, introduce la Edad y la FC en Reposo.");
+            if (!age || age <= 0 || !hrRest || hrRest <= 0) {
+                alert("Por favor, introduce una edad y FC en reposo válidas. / Please enter valid Age and Resting HR.");
                 return;
             }
 
-            // Fórmula de Tanaka
-            const fcMax = Math.round(208 - (0.7 * edad));
-            document.getElementById("resFcMax").innerText = fcMax;
+            // Tanaka: 208 - (0.7 * Age)
+            const hrMax = Math.round(208 - (0.7 * age));
+            const hrReserve = hrMax - hrRest;
 
-            // Frecuencia de Reserva
-            const fcr = fcMax - fcRep;
+            document.getElementById('resHrMax').innerText = hrMax;
 
-            // Función interna Karvonen
-            const karvonen = (porcentaje) => Math.round(fcRep + (fcr * porcentaje));
+            // Karvonen Function
+            const calcZone = (percentObj) => Math.round((hrReserve * percentObj) + hrRest);
 
-            // Actualizar tabla
-            const tbody = document.getElementById("tablaZonas");
-            tbody.innerHTML = `
-                <tr class="z1"><td>Z1</td><td>50-60%</td><td>${karvonen(0.50)} - ${karvonen(0.60)}</td><td>Calentamiento / Recuperación</td></tr>
-                <tr class="z2"><td>Z2</td><td>60-70%</td><td>${karvonen(0.60)} - ${karvonen(0.70)}</td><td>Base aeróbica / Quema grasa</td></tr>
-                <tr class="z3"><td>Z3</td><td>70-80%</td><td>${karvonen(0.70)} - ${karvonen(0.80)}</td><td>Capacidad aeróbica</td></tr>
-                <tr class="z4"><td>Z4</td><td>80-90%</td><td>${karvonen(0.80)} - ${karvonen(0.90)}</td><td>Umbral Anaeróbico</td></tr>
-                <tr class="z5"><td>Z5</td><td>90-100%</td><td>${karvonen(0.90)} - ${karvonen(1.00)}</td><td>Potencia / VO2 Max</td></tr>
-            `;
-        }
+            document.getElementById('resZ1').innerText = `${calcZone(0.50)} - ${calcZone(0.60)} ppm`;
+            document.getElementById('resZ2').innerText = `${calcZone(0.60)} - ${calcZone(0.70)} ppm`;
+            document.getElementById('resZ3').innerText = `${calcZone(0.70)} - ${calcZone(0.80)} ppm`;
+            document.getElementById('resZ4').innerText = `${calcZone(0.80)} - ${calcZone(0.90)} ppm`;
+            document.getElementById('resZ5').innerText = `${calcZone(0.90)} - ${hrMax} ppm`;
+        });
 
-        // --- SCRIPT 3: Generador de Prompts ---
-        function generarPrompt() {
-            const obj = document.getElementById("p_obj").value || "[Inserta Objetivo]";
-            const ritmo = document.getElementById("p_ritmo").value || "[Ritmo Actual]";
-            const tiempo = document.getElementById("p_tiempo").value || "[Tiempo Máximo]";
-            const dias = document.getElementById("p_dias").value || "[X]";
-            
-            // Intenta coger datos de la calculadora si los hay
-            const edad = document.getElementById("edad").value || "[Tu Edad]";
-            const fcRep = document.getElementById("fcReposo").value || "[Tu FC Reposo]";
-            const fcMax = document.getElementById("resFcMax").innerText !== '--' ? document.getElementById("resFcMax").innerText : "[Tu FC Máxima]";
+        // 5. Copy Prompt Logic
+        const btnCopyPrompt = document.getElementById('btnCopyPrompt');
+        const promptCodeBlock = document.getElementById('promptCodeBlock');
 
-            const promptText = `Actúa como un Entrenador Personal experto en fisiología deportiva y planificación. 
-Necesito un macrociclo de entrenamiento estructurado con los siguientes datos fisiológicos y métricas reales:
-
-- Perfil: ${edad} años. 
-- Frecuencia Cardíaca: Reposo ${fcRep} lpm | FC Máxima (Tanaka) ${fcMax} lpm.
-- Objetivo Principal: ${obj}.
-- Métricas Actuales: Ritmo de rodaje ${ritmo} con un tiempo máximo de soporte continuo de ${tiempo}.
-- Disponibilidad: ${dias} días a la semana.
-
-Requisitos del plan:
-1. Utiliza las zonas de entrenamiento según la fórmula de Karvonen.
-2. Incluye progresiones de sistemas de entrenamiento (Cross-paseo para regenerar, carrera continua, fartlek).
-3. Dame la estructura semanal (microciclo) con volumen, intensidad en % y lpm, y descansos.`;
-
-            document.getElementById("resultadoPrompt").innerText = promptText;
-        }
+        btnCopyPrompt.addEventListener('click', () => {
+            navigator.clipboard.writeText(promptCodeBlock.innerText).then(() => {
+                const originalText = btnCopyPrompt.innerHTML;
+                btnCopyPrompt.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado al Portapapeles!';
+                btnCopyPrompt.classList.remove('bg-brand-500');
+                btnCopyPrompt.classList.add('bg-emerald-500');
+                
+                setTimeout(() => {
+                    btnCopyPrompt.innerHTML = originalText;
+                    btnCopyPrompt.classList.remove('bg-emerald-500');
+                    btnCopyPrompt.classList.add('bg-brand-500');
+                }, 2500);
+            });
+        });
     </script>
 </body>
 </html>
