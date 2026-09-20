@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificación del Entrenamiento | Depto. EF - IES Pérez Comendador</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax for LaTeX formatting -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        school: {
+                            navy: '#0f172a',
+                            blue: '#1e3a8a',
+                            royal: '#1d4ed8',
+                            gold: '#d4af37',
+                            amber: '#f59e0b',
+                            emerald: '#10b981',
+                            light: '#f8fafc',
+                        }
+                    }
+                }
+            }
+        }
+        
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <style>
+        .glass-card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); border: 1px solid rgba(229, 231, 235, 0.8); }
+        .gradient-hero { background: linear-gradient(135deg, #020617 0%, #0f172a 40%, #1e3a8a 100%); }
+        .gradient-gold { background: linear-gradient(135deg, #f59e0b 0%, #d4af37 100%); }
+        .gradient-vam { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0284c7 100%); }
+        .gradient-fc { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #be123c 100%); }
+        
+        /* Language Toggle Rules */
+        html[lang="es"] [lang="en"] { display: none !important; }
+        html[lang="en"] [lang="es"] { display: none !important; }
+        
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-school-gold selection:text-school-navy relative">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-school-navy/95 backdrop-blur-md text-white border-b border-white/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl gradient-gold flex items-center justify-center text-school-navy font-black text-lg shadow-lg shadow-school-gold/20 border border-white/20 group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-extrabold text-sm sm:text-base leading-none block tracking-wide uppercase text-white">
+                        Planificación del Entrenamiento
+                    </span>
+                    <span class="text-[10px] sm:text-xs text-school-gold font-semibold tracking-wider mt-0.5">
+                        <span lang="es">Departamento de EF • IES Pérez Comendador</span>
+                        <span lang="en">PE Department • IES Pérez Comendador</span>
+                    </span>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center space-x-1 text-xs font-semibold">
+                <a href="#leyes-principios" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition">
+                    <span lang="es">Leyes y Principios</span><span lang="en">Laws & Principles</span>
+                </a>
+                <a href="#carga-entrenamiento" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition">
+                    <span lang="es">Carga de Entreno</span><span lang="en">Training Load</span>
+                </a>
+                <a href="#intensidad-resistencia" class="px-3 py-2 rounded-lg text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 hover:bg-cyan-500/20 transition">
+                    <i class="fa-solid fa-calculator mr-1"></i> <span lang="es">FC y VAM</span><span lang="en">HR & MAS</span>
+                </a>
+                <a href="#planificacion" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition">
+                    <span lang="es">Planificación</span><span lang="en">Planning</span>
+                </a>
+                <a href="#sistemas" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition">
+                    <span lang="es">Sistemas</span><span lang="en">Systems</span>
+                </a>
+                <a href="#anexo-ia" class="px-3 py-2 rounded-lg text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition">
+                    <i class="fa-solid fa-robot mr-1"></i> <span lang="es">Entrena con IA</span><span lang="en">Train with AI</span>
+                </a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button id="langToggleBtn" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 hover:border-school-gold text-xs font-bold transition group">
+                    <i class="fa-solid fa-language text-school-gold group-hover:scale-110 transition-transform"></i>
+                    <span id="currentLangLabel">ES / EN</span>
+                </button>
+                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden lg:hidden bg-school-navy border-t border-slate-800 px-4 pt-2 pb-4 space-y-2 text-sm shadow-xl absolute w-full">
+            <a href="#leyes-principios" class="mobile-link block px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800"><span lang="es">⚡ Leyes y Principios</span><span lang="en">⚡ Laws & Principles</span></a>
+            <a href="#carga-entrenamiento" class="mobile-link block px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800"><span lang="es">⚖️ Carga del Entrenamiento</span><span lang="en">⚖️ Training Load</span></a>
+            <a href="#intensidad-resistencia" class="mobile-link block px-3 py-2 rounded-md text-cyan-400 bg-cyan-500/10 font-semibold"><span lang="es">📊 Medición de Intensidad (FC y VAM)</span><span lang="en">📊 Intensity Measurement (HR & MAS)</span></a>
+            <a href="#planificacion" class="mobile-link block px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800"><span lang="es">🗺️ Planificación y Sesión</span><span lang="en">🗺️ Planning & Session</span></a>
+            <a href="#sistemas" class="mobile-link block px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800"><span lang="es">🏋️ Sistemas de Entrenamiento</span><span lang="en">🏋️ Training Systems</span></a>
+            <a href="#anexo-ia" class="mobile-link block px-3 py-2 rounded-md text-amber-300 bg-amber-500/10 font-semibold"><span lang="es">🤖 Guía de Prompts de IA</span><span lang="en">🤖 AI Prompts Guide</span></a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="gradient-hero text-white py-16 lg:py-20 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-school-royal rounded-full blur-[100px]"></div>
+            <div class="absolute top-1/2 -left-24 w-72 h-72 bg-school-gold rounded-full blur-[100px]"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-center lg:text-left">
+                <div class="lg:col-span-9 space-y-5">
+                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-school-gold text-xs font-bold tracking-widest uppercase shadow-sm">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span lang="es">Departamento de EF • IES Pérez Comendador</span>
+                        <span lang="en">PE Department • IES Pérez Comendador</span>
+                    </div>
+                    <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]">
+                        <span lang="es">Planificación de un Entrenamiento Personal</span>
+                        <span lang="en">Personal Training Planning</span>
+                    </h1>
+                    <p class="text-amber-300 font-medium text-lg sm:text-xl">
+                        <span lang="es">Salud, Ciencia y Rendimiento: Tu guía oficial para aprender a entrenar con criterio.</span>
+                        <span lang="en">Health, Science & Performance: Your official guide for smart training.</span>
+                    </p>
+                    <p class="text-slate-300 text-base sm:text-lg max-w-3xl font-light leading-relaxed mx-auto lg:mx-0">
+                        <span lang="es">El acondicionamiento físico es el proceso de mejora de nuestras capacidades físicas básicas: <strong>fuerza, resistencia, flexibilidad y velocidad</strong>. Descubre las leyes biológicas de adaptación, calcula tus zonas con <strong>FC y VAM</strong>, domina los métodos de entrenamiento y diseña tu propio plan con Inteligencia Artificial.</span>
+                        <span lang="en">Physical conditioning improves basic capabilities: <strong>strength, endurance, flexibility, and speed</strong>. Discover biological laws of adaptation, calculate target zones using <strong>HR & MAS</strong>, master training methods, and design your routine with AI.</span>
+                    </p>
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#leyes-principios" class="px-6 py-3 rounded-xl bg-school-gold hover:bg-amber-400 text-school-navy font-bold transition shadow-lg shadow-school-gold/20 w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span lang="es">Ver Leyes de Adaptación</span><span lang="en">View Adaptation Laws</span>
+                        </a>
+                        <a href="#intensidad-resistencia" class="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition shadow-lg shadow-cyan-500/20 w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <span lang="es">Calculadoras FC y VAM</span><span lang="en">HR & MAS Calculators</span>
+                        </a>
+                        <a href="#anexo-ia" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold backdrop-blur-md border border-white/20 transition w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-robot text-amber-300"></i>
+                            <span lang="es">Diseña con IA</span><span lang="en">Design with AI</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden lg:flex lg:col-span-3 justify-center">
+                    <div class="relative">
+                        <div class="w-44 h-44 rounded-3xl bg-gradient-to-tr from-amber-500/20 to-blue-500/20 border border-white/10 flex flex-col items-center justify-center text-center p-4 backdrop-blur-md shadow-2xl">
+                            <i class="fa-solid fa-heart-pulse text-5xl text-school-gold mb-3 animate-pulse"></i>
+                            <span class="text-xs font-bold text-white uppercase tracking-wider">IES Pérez Comendador</span>
+                            <span class="text-[10px] text-slate-300 mt-1">Educación Física</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- SECTION 1: LEYES DE ADAPTACIÓN Y PRINCIPIOS -->
+        <section id="leyes-principios" class="scroll-mt-24">
+            <div class="flex items-center space-x-4 mb-8">
+                <div class="w-12 h-12 bg-school-blue/10 text-school-blue rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-school-blue/20">1</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">1. Leyes de la Adaptación</span>
+                        <span lang="en">1. Laws of Adaptation</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">La práctica continuada de deporte produce cambios biológicos en nuestro organismo.</span>
+                        <span lang="en">Continuous exercise produces biological adaptations in our body.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Leyes de Adaptación Grid con Gráficos e Imágenes Vectoriales -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                
+                <!-- LEY DEL UMBRAL -->
+                <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden group border-t-4 border-t-amber-500 shadow-lg">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">
+                                <i class="fa-solid fa-gauge-simple-high mr-1"></i> Schultz-Arndt
+                            </span>
+                            <span class="text-xs font-mono text-slate-400">Ley 1</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-2xl text-school-navy mb-3">
+                            <span lang="es">Ley del Umbral</span>
+                            <span lang="en">Law of Threshold</span>
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                            <span lang="es">Para que exista adaptación debe de haber un estímulo (ejercicio físico). Este ejercicio debe de ser de una cierta intensidad para que produzca adaptación: <strong>debe superar un umbral mínimo para que "canse" lo suficiente</strong>. Tampoco debe superar el umbral máximo para evitar el sobreentrenamiento y las lesiones.</span>
+                            <span lang="en">For adaptation to occur, there must be a stimulus exceeding a <strong>minimum threshold</strong> to challenge the organism, without surpassing the maximum threshold that leads to overtraining.</span>
+                        </p>
+                        
+                        <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs text-amber-950 mb-6">
+                            <strong><i class="fa-solid fa-lightbulb text-amber-600 mr-1"></i> <span lang="es">Ejemplo Práctico:</span><span lang="en">Practical Example:</span></strong>
+                            <span lang="es"> $3\text{ min}$ de carrera suave no suponen un ejercicio suficiente, pero $30\text{ min}$ sí puede serlo (dependiendo del nivel inicial de cada persona).</span>
+                            <span lang="en"> $3\text{ min}$ of light jog is not enough stimulus, but $30\text{ min}$ can be (depending on fitness level).</span>
+                        </div>
+
+                        <!-- ILUSTRACIÓN GRÁFICA / VECTORIAL DE LA LEY DEL UMBRAL -->
+                        <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-inner">
+                            <div class="flex items-center justify-between text-[11px] font-bold text-slate-300 mb-2">
+                                <span class="flex items-center gap-1"><i class="fa-solid fa-chart-bar text-amber-400"></i> <span lang="es">Gráfico Explicativo: Niveles de Estímulo</span><span lang="en">Diagram: Stimulus Intensity Levels</span></span>
+                                <span class="text-slate-500 font-mono">Umbral de Schultz</span>
+                            </div>
+                            
+                            <svg viewBox="0 0 500 240" class="w-full h-auto rounded-lg bg-slate-950/80 p-2">
+                                <!-- Axes -->
+                                <line x1="50" y1="200" x2="470" y2="200" stroke="#475569" stroke-width="2" />
+                                <line x1="50" y1="20" x2="50" y2="200" stroke="#475569" stroke-width="2" stroke-dasharray="3,3" />
+                                
+                                <!-- Threshold Lines -->
+                                <!-- Min Threshold -->
+                                <line x1="50" y1="130" x2="470" y2="130" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5" />
+                                <text x="465" y="125" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="end">Umbral Mínimo (Mínima adaptación)</text>
+                                
+                                <!-- Max Threshold -->
+                                <line x1="50" y1="50" x2="470" y2="50" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" />
+                                <text x="465" y="45" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="end">Umbral Máximo (Tolerancia / Riesgo)</text>
+
+                                <!-- Bars for 4 stimulus categories -->
+                                <!-- 1: Subumbral / Inútil -->
+                                <rect x="75" y="160" width="60" height="40" rx="6" fill="#64748b" opacity="0.8" />
+                                <text x="105" y="183" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">1. Débil</text>
+                                <text x="105" y="220" fill="#94a3b8" font-size="9" text-anchor="middle">Sin efecto</text>
+
+                                <!-- 2: Umbral medio / Mantenimiento -->
+                                <rect x="175" y="115" width="60" height="85" rx="6" fill="#3b82f6" opacity="0.85" />
+                                <text x="205" y="160" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">2. Medio</text>
+                                <text x="205" y="220" fill="#94a3b8" font-size="9" text-anchor="middle">Mantiene</text>
+
+                                <!-- 3: Estímulo Óptimo -->
+                                <rect x="275" y="65" width="65" height="135" rx="6" fill="#10b981" opacity="0.9" />
+                                <text x="307" y="130" fill="#ffffff" font-size="12" font-weight="extrabold" text-anchor="middle">3. Óptimo</text>
+                                <text x="307" y="220" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">¡ADAPTACIÓN!</text>
+
+                                <!-- 4: Estímulo Excesivo -->
+                                <rect x="380" y="30" width="60" height="170" rx="6" fill="#ef4444" opacity="0.85" />
+                                <text x="410" y="110" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">4. Perjudicial</text>
+                                <text x="410" y="220" fill="#ef4444" font-size="9" font-weight="bold" text-anchor="middle">Sobreentreno</text>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-2">
+                                <span lang="es">El estímulo debe situarse entre el <strong>Umbral Mínimo</strong> y el <strong>Umbral Máximo (Zona Óptima)</strong>.</span>
+                                <span lang="en">The exercise stimulus must stay between the <strong>Minimum</strong> and <strong>Maximum Threshold (Optimal Zone)</strong>.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LEY DE LA SUPERCOMPENSACIÓN (SGA) -->
+                <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden group border-t-4 border-t-blue-600 shadow-lg">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">
+                                <i class="fa-solid fa-arrow-trend-up mr-1"></i> Selye / SGA
+                            </span>
+                            <span class="text-xs font-mono text-slate-400">Ley 2</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-2xl text-school-navy mb-3">
+                            <span lang="es">Ley de la Supercompensación</span>
+                            <span lang="en">Law of Supercompensation</span>
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                            <span lang="es">Cuando aplicamos un estímulo de entrenamiento, el nivel de condición física desciende debido al cansancio y la fatiga. Con el descanso adecuado, el organismo se recupera, regresa a su nivel inicial <strong>e incluso sube un poco por encima</strong>. Ese aumento de rendimiento se denomina <strong>supercompensación</strong>.</span>
+                            <span lang="en">When training stimulus occurs, fitness drops due to fatigue. During proper rest, physical condition recovers, returns to baseline <strong>and peaks slightly higher</strong>. This improvement is called <strong>supercompensation</strong>.</span>
+                        </p>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 text-xs text-blue-950 mb-6">
+                            <strong><i class="fa-solid fa-triangle-exclamation text-blue-600 mr-1"></i> <span lang="es">Mito vs. Realidad:</span><span lang="en">Myth vs. Reality:</span></strong>
+                            <p class="mt-1">
+                                <span lang="es"><em>"Cuanto más entreno y más agujetas tengo, mejor."</em> <strong>¡Falso!</strong> El músculo no mejora durante el entrenamiento, sino en el descanso. Sin supercompensación, el rendimiento cae y aparece la lesión.</span>
+                                <span lang="en"><em>"The more I train and get sore, the better."</em> <strong>False!</strong> Adaptation occurs during rest. Without supercompensation, performance drops and injuries occur.</span>
+                            </p>
+                        </div>
+
+                        <!-- ILUSTRACIÓN GRÁFICA / VECTORIAL DE LA SUPERCOMPENSACIÓN -->
+                        <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-inner">
+                            <div class="flex items-center justify-between text-[11px] font-bold text-slate-300 mb-2">
+                                <span class="flex items-center gap-1"><i class="fa-solid fa-wave-square text-cyan-400"></i> <span lang="es">Gráfico: Curva del Síndrome General de Adaptación</span><span lang="en">Diagram: General Adaptation Syndrome Curve</span></span>
+                                <span class="text-slate-500 font-mono">Curva SGA</span>
+                            </div>
+
+                            <svg viewBox="0 0 500 240" class="w-full h-auto rounded-lg bg-slate-950/80 p-2">
+                                <!-- Baseline level -->
+                                <line x1="40" y1="120" x2="470" y2="120" stroke="#64748b" stroke-width="2" stroke-dasharray="4,4" />
+                                <text x="45" y="112" fill="#94a3b8" font-size="10" font-weight="bold">Nivel Inicial de Forma</text>
+
+                                <!-- Time axis -->
+                                <line x1="40" y1="210" x2="470" y2="210" stroke="#475569" stroke-width="2" />
+                                <text x="460" y="200" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="end">Tiempo (Horas / Días)</text>
+
+                                <!-- SVG Curve for Supercompensation -->
+                                <!-- Start: (40, 120), Drop to (120, 180), Recover to (240, 120), Supercompensate Peak (330, 60), Involution back to (450, 120) -->
+                                <path d="M 40 120 Q 90 120 120 185 T 230 125 Q 310 50 350 60 T 460 120" stroke="#38bdf8" stroke-width="4" fill="none" />
+
+                                <!-- Shaded area under supercompensation peak -->
+                                <path d="M 230 120 Q 310 50 350 60 T 460 120 Z" fill="#38bdf8" opacity="0.15" />
+
+                                <!-- Points & Markers -->
+                                <!-- 1. Stimulus / Training -->
+                                <circle cx="80" cy="130" r="6" fill="#f59e0b" />
+                                <text x="80" y="150" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">1. Estímulo (Entreno)</text>
+
+                                <!-- 2. Fatigue / Drop -->
+                                <circle cx="120" cy="185" r="6" fill="#ef4444" />
+                                <text x="120" y="202" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="middle">2. Fatiga</text>
+
+                                <!-- 3. Recovery -->
+                                <circle cx="210" cy="145" r="6" fill="#a855f7" />
+                                <text x="210" y="165" fill="#a855f7" font-size="10" font-weight="bold" text-anchor="middle">3. Recuperación</text>
+
+                                <!-- 4. Supercompensation Peak -->
+                                <circle cx="340" cy="60" r="7" fill="#10b981" />
+                                <text x="340" y="42" fill="#10b981" font-size="11" font-weight="extrabold" text-anchor="middle">4. ¡SUPERCOMPENSACIÓN!</text>
+
+                                <!-- Arrow for new stimulus optimal window -->
+                                <line x1="340" y1="67" x2="340" y2="95" stroke="#10b981" stroke-width="2" stroke-dasharray="2,2" />
+                                <text x="340" y="108" fill="#10b981" font-size="9" font-weight="bold" text-anchor="middle">Momento Ideal Siguiente Carga</text>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-2">
+                                <span lang="es">El nuevo entrenamiento debe aplicarse justo en el <strong>pico de supercompensación (fase 4)</strong> para encadenar mejoras progresivas.</span>
+                                <span lang="en">Next workout must occur right at the <strong>supercompensation peak (phase 4)</strong> to trigger progress.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PRINCIPIOS DEL ENTRENAMIENTO -->
+            <div class="bg-school-navy text-white p-6 sm:p-10 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-school-blue opacity-20 rounded-full blur-3xl"></div>
+                <div class="flex items-center space-x-3 mb-2 relative z-10">
+                    <span class="px-3 py-1 rounded-md bg-school-gold/20 text-school-gold font-bold text-xs uppercase tracking-widest border border-school-gold/30">
+                        <i class="fa-solid fa-list-check mr-1"></i> Principios Clave
+                    </span>
+                </div>
+                <h3 class="font-heading font-bold text-2xl sm:text-3xl mb-2 text-white relative z-10">
+                    <span lang="es">2. Principios del Entrenamiento</span>
+                    <span lang="en">2. Principles of Training</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-8 relative z-10">
+                    <span lang="es">Consideraciones científicas imprescindibles para entrenar de forma eficaz y segura.</span>
+                    <span lang="en">Essential scientific guidelines for effective and safe physical training.</span>
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm relative z-10">
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-shapes mr-2"></i><span lang="es">Multilateralidad</span><span lang="en">Multilaterality</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Abarcar el mayor número de capacidades físicas y musculatura. Entrenar solo una parte provoca detrimento de las demás.</span><span lang="en">Cover all physical qualities and muscle groups. Focusing on one deteriorates others.</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-arrow-up-right-dots mr-2"></i><span lang="es">Progresión</span><span lang="en">Progression</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Al subir tu umbral, debes hacer ejercicios más significativos (más tiempo o mayor velocidad) para seguir mejorando.</span><span lang="en">As threshold rises, increase training stimulus progressively to maintain adaptative gains.</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-clock-rotate-left mr-2"></i><span lang="es">Alternancia y Descanso</span><span lang="en">Alternation & Rest</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Tiempos de recuperación para la supercompensación:<br>• Flexibilidad: $12\text{ h}$<br>• Resistencia aeróbica: $24\text{ h}$<br>• Vel / Res Anaeróbica: $48\text{ h}$<br>• Fuerza-Res / Explosiva: $48\text{ h}$<br>• Fuerza máxima: $72\text{ h}$</span><span lang="en">Recovery times for supercompensation:<br>• Flexibility: $12\text{ h}$<br>• Aerobic Endurance: $24\text{ h}$<br>• Speed / Anaerobic: $48\text{ h}$<br>• Strength-Endurance: $48\text{ h}$<br>• Max Strength: $72\text{ h}$</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-link mr-2"></i><span lang="es">Continuidad</span><span lang="en">Continuity</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Mantener una práctica regular. Si dejas de entrenar $3-5\text{ días}$, tu nivel de condición física empieza a bajar.</span><span lang="en">Maintain regular practice. Stopping for $3-5\text{ days}$ causes physical condition to drop.</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-rotate-left mr-2"></i><span lang="es">Reversibilidad</span><span lang="en">Reversibility</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Lo que no se usa, se pierde. Al abandonar el entrenamiento, las adaptaciones biológicas conquistadas desaparecen.</span><span lang="en">Use it or lose it. When training stops, biological adaptations disappear over time.</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-bullseye mr-2"></i><span lang="es">Especificidad</span><span lang="en">Specificity</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Para mejorar en una capacidad, los ejercicios deben ir orientados a ella ($40\%$ específico y $60\%$ general multilateral).</span><span lang="en">To improve a quality, workouts must match it ($40\%$ specific and $60\%$ general multilateral).</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-layer-group mr-2"></i><span lang="es">Variedad</span><span lang="en">Variety</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Variar métodos y ejercicios evita la monotonía psicológica y el estancamiento en la coordinación motora.</span><span lang="en">Varying methods and exercises prevents boredom and motor stagnation.</span></p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700 hover:border-school-gold/50 transition">
+                        <strong class="text-school-gold block mb-2"><i class="fa-solid fa-fingerprint mr-2"></i><span lang="es">Individualización</span><span lang="en">Individualization</span></strong>
+                        <p class="text-slate-300 text-xs"><span lang="es">Cada organismo es único. Conoce tus posibilidades y jamás copies rutinas de influencers o amigos con años de entreno.</span><span lang="en">Every body is unique. Train according to your level; never copy advanced influencer routines.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CARGA DEL ENTRENAMIENTO -->
+        <section id="carga-entrenamiento" class="scroll-mt-24">
+            <div class="flex items-center space-x-4 mb-8">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-amber-500/20">3</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">3. Carga del Entrenamiento (Sesión)</span>
+                        <span lang="en">3. Training Load (Session)</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">Es la medida cuantitativa y cualitativa determinada por la <strong>Magnitud</strong> (cuánto) y la <strong>Orientación</strong> (hacia qué capacidad).</span>
+                        <span lang="en">Quantitative and qualitative measurement determined by <strong>Magnitude</strong> and <strong>Orientation</strong>.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- COMPARATIVA VOLUMEN E INTENSIDAD EN FUERZA Y RESISTENCIA -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                
+                <!-- COMPONENTE 1: VOLUMEN -->
+                <div class="glass-card p-6 sm:p-8 rounded-3xl border-t-4 border-t-blue-600 shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-ruler-combined"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-bold text-xl text-school-navy">
+                                    <span lang="es">1) VOLUMEN (Componente Cuantitativo)</span>
+                                    <span lang="en">1) VOLUME (Quantitative Component)</span>
+                                </h3>
+                                <p class="text-xs text-slate-500"><span lang="es">Cantidad total de entrenamiento realizado.</span><span lang="en">Total amount of training performed.</span></p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-sm">
+                            <div class="bg-blue-50/70 p-4 rounded-2xl border border-blue-100">
+                                <strong class="text-blue-900 block mb-1 font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-person-running text-blue-600"></i>
+                                    <span lang="es">En RESISTENCIA (Deportes Cíclicos):</span>
+                                    <span lang="en">In ENDURANCE (Cyclic Sports):</span>
+                                </strong>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    <span lang="es">Se mide en unidades de tiempo o distancia: <strong>horas, minutos, metros o kilómetros</strong> (ej: correr $30\text{ min}$ o nadar $1500\text{ m}$).</span>
+                                    <span lang="en">Measured in time or distance: <strong>hours, minutes, meters, or kilometers</strong> (e.g. running $30\text{ min}$ or swimming $1500\text{ m}$).</span>
+                                </p>
+                            </div>
+
+                            <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-100">
+                                <strong class="text-indigo-900 block mb-1 font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-dumbbell text-indigo-600"></i>
+                                    <span lang="es">En FUERZA (Pesas / Calistenia):</span>
+                                    <span lang="en">In STRENGTH (Weights / Calisthenics):</span>
+                                </strong>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    <span lang="es">Se mide en cantidad de trabajo muscular: <strong>número de Series y Repeticiones</strong> (ej: $3\text{ series} \times 10\text{ repeticiones}$ de flexiones).</span>
+                                    <span lang="en">Measured in amount of muscle work: <strong>number of Sets and Repetitions</strong> (e.g. $3\text{ sets} \times 10\text{ reps}$ of push-ups).</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPONENTE 2: INTENSIDAD -->
+                <div class="glass-card p-6 sm:p-8 rounded-3xl border-t-4 border-t-red-500 shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-red-100 text-red-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-bold text-xl text-school-navy">
+                                    <span lang="es">2) INTENSIDAD (Componente Cualitativo)</span>
+                                    <span lang="en">2) INTENSITY (Qualitative Component)</span>
+                                </h3>
+                                <p class="text-xs text-slate-500"><span lang="es">Cómo de duro o exigente es el esfuerzo.</span><span lang="en">How hard or demanding the effort is.</span></p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-600 mb-4 italic font-medium">
+                            <span lang="es"><strong>Regla clave:</strong> A mucho volumen, poca intensidad; y a mucha intensidad, poco volumen.</span>
+                            <span lang="en"><strong>Key rule:</strong> High volume requires low intensity; high intensity requires low volume.</span>
+                        </p>
+
+                        <div class="space-y-4 text-sm">
+                            <div class="bg-red-50/70 p-4 rounded-2xl border border-red-100">
+                                <strong class="text-red-900 block mb-1 font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-heart-pulse text-red-600"></i>
+                                    <span lang="es">En RESISTENCIA:</span>
+                                    <span lang="en">In ENDURANCE:</span>
+                                </strong>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    <span lang="es">Científicamente se mide con la <strong>Frecuencia Cardíaca (ppm)</strong> y la velocidad respecto a tu <strong>Velocidad Aeróbica Máxima (VAM)</strong>. En la práctica real usas la escala <strong>RPE (Esfuerzo Percibido del 1 al 10)</strong>.</span>
+                                    <span lang="en">Measured using <strong>Heart Rate (bpm)</strong> and speed relative to <strong>Maximum Aerobic Speed (MAS)</strong>. Practically measured via <strong>RPE (Perceived Exertion Scale 1-10)</strong>.</span>
+                                </p>
+                            </div>
+
+                            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-100">
+                                <strong class="text-amber-900 block mb-1 font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-weight-hanging text-amber-600"></i>
+                                    <span lang="es">En FUERZA:</span>
+                                    <span lang="en">In STRENGTH:</span>
+                                </strong>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    <span lang="es">Científicamente es el <strong>Porcentaje del peso máximo ($1\text{RM}$)</strong>. En la práctica real se usa el <strong>RIR (Repeticiones en Reserva)</strong>: cuántas repeticiones te quedan antes del fallo muscular (ideal: $\text{RIR } 1$ o $\text{RIR } 2$).</span>
+                                    <span lang="en">Measured as <strong>Percentage of 1RM</strong>. In practice, <strong>RIR (Reps in Reserve)</strong> is used: reps left before muscular failure (ideal: $\text{RIR } 1$ or $\text{RIR } 2$).</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPONENTE 3: RECUPERACIÓN Y ENTRENAMIENTO INVISIBLE -->
+            <div class="bg-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl mb-12 relative overflow-hidden border border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <div class="md:col-span-8 space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-bed"></i>
+                            <span lang="es">3) Recuperación y El Entrenamiento Invisible</span>
+                            <span lang="en">3) Recovery & Invisible Training</span>
+                        </div>
+                        <h3 class="text-2xl font-heading font-bold text-white">
+                            <span lang="es">El 50% de tus resultados ocurre fuera del entrenamiento</span>
+                            <span lang="en">50% of your results happen outside training</span>
+                        </h3>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            <span lang="es">La recuperación puede ser <strong>Pasiva</strong> (descanso total, inactividad) o <strong>Activa</strong> (caminar, movilidad suave, estiramientos).<br>🛠 <strong>El Entrenamiento Invisible:</strong> El músculo no se crea en el gimnasio, se crea en la cama y en la cocina. Dormir entre $7$ y $9\text{ horas}$, mantenerte bien hidratado y comer saludable es la mitad de tu rendimiento.</span>
+                            <span lang="en">Recovery can be <strong>Passive</strong> (full rest) or <strong>Active</strong> (walking, light mobility).<br>🛠 <strong>Invisible Training:</strong> Muscle is built in bed and kitchen. Sleeping $7-9\text{ hours}$, staying hydrated, and healthy eating count for half your results.</span>
+                        </p>
+                    </div>
+                    <div class="md:col-span-4 bg-slate-800/90 p-5 rounded-2xl border border-slate-700 text-center">
+                        <i class="fa-solid fa-moon text-3xl text-amber-400 mb-2 block"></i>
+                        <span class="text-xs font-bold text-slate-200 block uppercase"><span lang="es">Regla de Sueño</span><span lang="en">Sleep Rule</span></span>
+                        <span class="text-2xl font-black text-school-gold font-mono">7 - 9 h</span>
+                        <p class="text-[11px] text-slate-400 mt-1"><span lang="es">Descanso nocturno reparador fundamental</span><span lang="en">Essential restorative night rest</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HERRAMIENTAS INTERACTIVAS: HERRAMIENTAS DE MEDICIÓN (FC Y VAM BOTONES) -->
+            <div id="intensidad-resistencia" class="scroll-mt-24 glass-card p-6 sm:p-10 rounded-3xl border-2 border-cyan-500/40 shadow-2xl relative">
+                
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-slate-200 pb-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-600 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <span lang="es">Herramientas Prácticas de Acondicionamiento</span>
+                            <span lang="en">Practical Conditioning Tools</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-heading font-black text-school-navy">
+                            <span lang="es">¿Cómo medir la intensidad en Resistencia? (FC y VAM)</span>
+                            <span lang="en">How to measure Endurance intensity? (HR & MAS)</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mt-1">
+                            <span lang="es">Haz clic en cada módulo interactivo para abrir las explicaciones y calculadoras automáticas.</span>
+                            <span lang="en">Click each interactive module to open detailed guides and automatic calculators.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- BOTONES SELECCIONADORES DE FC Y VAM -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                    
+                    <!-- Tarjeta/Botón 1: Frecuencia Cardíaca (FC) -->
+                    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl border border-slate-700 shadow-lg flex flex-col justify-between hover:border-red-500 transition">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-2.5 py-1 rounded-md bg-red-500/20 text-red-400 font-bold text-xs border border-red-500/30">
+                                    <i class="fa-solid fa-heartbeat mr-1"></i> FC
+                                </span>
+                                <span class="text-[11px] text-slate-400 font-mono">Pulsaciones / min</span>
+                            </div>
+                            <h4 class="font-heading font-bold text-xl text-white mb-2">
+                                <span lang="es">Frecuencia Cardíaca (FC)</span>
+                                <span lang="en">Heart Rate (HR)</span>
+                            </h4>
+                            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                                <span lang="es">Número de latidos del corazón por minuto ($\text{ppm}$). Mide la respuesta cardiovascular al esfuerzo.</span>
+                                <span lang="en">Heartbeats per minute ($\text{bpm}$). Measures cardiovascular exertion response.</span>
+                            </p>
+                        </div>
+                        <button id="btnToggleFc" class="w-full py-3 px-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-solid fa-calculator"></i>
+                            <span id="labelFcBtn" lang="es">Abrir Calculadora y Zonas de FC</span>
+                            <span id="labelFcBtnEn" lang="en">Open HR Calculator & Zones</span>
+                        </button>
+                    </div>
+
+                    <!-- Tarjeta/Botón 2: Velocidad Aeróbica Máxima (VAM) -->
+                    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl border border-slate-700 shadow-lg flex flex-col justify-between hover:border-cyan-400 transition">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-300 font-bold text-xs border border-cyan-500/30">
+                                    <i class="fa-solid fa-gauge-high mr-1"></i> VAM
+                                </span>
+                                <span class="text-[11px] text-slate-400 font-mono">Ritmo km/h</span>
+                            </div>
+                            <h4 class="font-heading font-bold text-xl text-white mb-2">
+                                <span lang="es">Velocidad Aeróbica Máxima (VAM)</span>
+                                <span lang="en">Maximum Aerobic Speed (MAS)</span>
+                            </h4>
+                            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                                <span lang="es">Velocidad mínima en la que alcanzas tu consumo máximo de oxígeno ($VO_2\text{máx}$). Sirve para ajustar ritmos de carrera.</span>
+                                <span lang="en">Minimum speed at maximum oxygen intake ($VO_2\text{max}$). Used to set exact running paces.</span>
+                            </p>
+                        </div>
+                        <button id="btnToggleVam" class="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-solid fa-stopwatch"></i>
+                            <span id="labelVamBtn" lang="es">Abrir Test 6 min y Calculadora VAM</span>
+                            <span id="labelVamBtnEn" lang="en">Open 6-min Test & MAS Calculator</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DESPLEGABLE FRECUENCIA CARDÍACA (FC) -->
+                <div id="fcContainer" class="hidden transition-all duration-300 mt-6">
+                    <div class="gradient-fc p-6 sm:p-8 rounded-3xl text-white shadow-2xl border border-red-500/30">
+                        <div class="flex items-center justify-between border-b border-white/20 pb-4 mb-6">
+                            <h4 class="font-heading font-bold text-2xl text-white flex items-center gap-2">
+                                <i class="fa-solid fa-heart-pulse text-red-400"></i>
+                                <span lang="es">Módulo: Calculadora de Frecuencia Cardíaca (Karvonen & Tanaka)</span>
+                                <span lang="en">Module: Heart Rate Calculator (Karvonen & Tanaka)</span>
+                            </h4>
+                            <button id="btnCloseFc" class="text-slate-300 hover:text-white text-sm px-3 py-1 bg-white/10 rounded-lg">
+                                <i class="fa-solid fa-xmark mr-1"></i> <span lang="es">Cerrar</span><span lang="en">Close</span>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                            <!-- Inputs FC -->
+                            <div class="lg:col-span-5 bg-slate-950/80 p-6 rounded-2xl border border-red-500/30 space-y-4">
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    <span lang="es">Aplicamos la fórmula de <strong>Tanaka</strong> ($FC_{\text{máx}} = 208 - 0.7 \times \text{edad}$) y la fórmula de <strong>Karvonen</strong> con tu FC de reposo.</span>
+                                    <span lang="en">We apply <strong>Tanaka</strong> ($HR_{\text{max}} = 208 - 0.7 \times \text{age}$) and <strong>Karvonen</strong> formula using resting HR.</span>
+                                </p>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-red-300 mb-1"><span lang="es">Tu Edad (años):</span><span lang="en">Your Age (years):</span></label>
+                                    <input type="number" id="fcAgeInput" min="10" max="90" value="16" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-mono focus:outline-none focus:border-red-400">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-red-300 mb-1"><span lang="es">FC Reposo (pulsaciones al despertar):</span><span lang="en">Resting HR (bpm upon waking):</span></label>
+                                    <input type="number" id="fcRestInput" min="40" max="120" value="65" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-mono focus:outline-none focus:border-red-400">
+                                </div>
+
+                                <button id="btnCalcFcAction" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-heart-circle-check"></i>
+                                    <span lang="es">Calcular Mis Zonas FC</span><span lang="en">Calculate HR Zones</span>
+                                </button>
+                            </div>
+
+                            <!-- Resultados FC -->
+                            <div class="lg:col-span-7 bg-slate-950/90 p-6 rounded-2xl border border-slate-800 space-y-4">
+                                <div class="grid grid-cols-2 gap-3 text-center">
+                                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                                        <span class="text-[10px] uppercase font-bold text-slate-400 block"><span lang="es">FC Máxima Estimada</span><span lang="en">Est. Max HR</span></span>
+                                        <span id="fcMaxVal" class="text-2xl font-black text-red-400 font-mono">197</span>
+                                        <span class="text-xs text-slate-400"> ppm</span>
+                                    </div>
+                                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                                        <span class="text-[10px] uppercase font-bold text-slate-400 block"><span lang="es">FC Reserva</span><span lang="en">HR Reserve</span></span>
+                                        <span id="fcResVal" class="text-2xl font-black text-amber-400 font-mono">132</span>
+                                        <span class="text-xs text-slate-400"> ppm</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 text-xs">
+                                    <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex justify-between items-center">
+                                        <span class="font-bold text-emerald-400">Zona 1 (50-60%): Regenerativo / Suave</span>
+                                        <span id="z1Val" class="font-mono text-white font-bold">131 - 144 ppm</span>
+                                    </div>
+                                    <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex justify-between items-center">
+                                        <span class="font-bold text-blue-400">Zona 2 (60-70%): Aeróbico Suave (Carrera continua)</span>
+                                        <span id="z2Val" class="font-mono text-white font-bold">144 - 157 ppm</span>
+                                    </div>
+                                    <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex justify-between items-center">
+                                        <span class="font-bold text-amber-400">Zona 3 (70-80%): Aeróbico Moderado</span>
+                                        <span id="z3Val" class="font-mono text-white font-bold">157 - 171 ppm</span>
+                                    </div>
+                                    <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex justify-between items-center">
+                                        <span class="font-bold text-orange-400">Zona 4 (80-90%): Umbral Anaeróbico</span>
+                                        <span id="z4Val" class="font-mono text-white font-bold">171 - 184 ppm</span>
+                                    </div>
+                                    <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex justify-between items-center">
+                                        <span class="font-bold text-red-400">Zona 5 (90-100%): Esfuerzo Máximo</span>
+                                        <span id="z5Val" class="font-mono text-white font-bold">184 - 197 ppm</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DESPLEGABLE VELOCIDAD AERÓBICA MÁXIMA (VAM) -->
+                <div id="vamContainer" class="hidden transition-all duration-300 mt-6">
+                    <div class="gradient-vam p-6 sm:p-8 rounded-3xl text-white shadow-2xl border border-cyan-500/30">
+                        <div class="flex items-center justify-between border-b border-cyan-500/30 pb-4 mb-6">
+                            <h4 class="font-heading font-bold text-2xl text-white flex items-center gap-2">
+                                <i class="fa-solid fa-gauge-high text-cyan-400"></i>
+                                <span lang="es">Módulo: Test de los 6 Minutos y Calculadora VAM</span>
+                                <span lang="en">Module: 6-Minute Test & MAS Calculator</span>
+                            </h4>
+                            <button id="btnCloseVam" class="text-slate-300 hover:text-white text-sm px-3 py-1 bg-white/10 rounded-lg">
+                                <i class="fa-solid fa-xmark mr-1"></i> <span lang="es">Cerrar</span><span lang="en">Close</span>
+                            </button>
+                        </div>
+
+                        <!-- Protocolo del Test -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+                            <div class="lg:col-span-6 bg-slate-950/80 p-6 rounded-2xl border border-cyan-500/30">
+                                <h5 class="font-bold text-lg text-cyan-300 mb-2">
+                                    <span lang="es">Cómo calcular tu VAM en el instituto:</span>
+                                    <span lang="en">How to measure your MAS at school:</span>
+                                </h5>
+                                <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                                    <span lang="es">Corre durante <strong>6 minutos</strong> en la pista anotando los metros totales recorridos. Divide la distancia total entre 100 y obtendrás tu VAM en $\text{km/h}$.</span>
+                                    <span lang="en">Run for <strong>6 minutes</strong> on the track recording total distance in meters. Divide distance by 100 to get MAS in $\text{km/h}$.</span>
+                                </p>
+                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center font-mono text-cyan-300 text-sm">
+                                    $\text{VAM (km/h)} = \frac{\text{Metros recorridos en 6 min}}{100}$
+                                </div>
+                            </div>
+
+                            <!-- Interactive VAM Calc -->
+                            <div class="lg:col-span-6 bg-slate-950/90 p-6 rounded-2xl border border-cyan-400/30 space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-cyan-300 mb-1"><span lang="es">Metros recorridos en 6 min:</span><span lang="en">Meters covered in 6 min:</span></label>
+                                    <input type="number" id="vamDistInput" min="400" max="3000" step="10" value="1300" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-mono focus:outline-none focus:border-cyan-400">
+                                </div>
+                                <button id="btnCalcVamAction" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-bolt"></i>
+                                    <span lang="es">Calcular VAM y Ritmos</span><span lang="en">Calculate MAS & Paces</span>
+                                </button>
+
+                                <div class="grid grid-cols-2 gap-3 text-center pt-2">
+                                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                                        <span class="text-[10px] uppercase font-bold text-slate-400 block"><span lang="es">Tu VAM</span><span lang="en">Your MAS</span></span>
+                                        <span id="vamResultVal" class="text-2xl font-black text-cyan-400 font-mono">13.0</span>
+                                        <span class="text-xs text-slate-400"> km/h</span>
+                                    </div>
+                                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                                        <span class="text-[10px] uppercase font-bold text-slate-400 block"><span lang="es">Ritmo 100% VAM</span><span lang="en">100% MAS Pace</span></span>
+                                        <span id="vamPaceVal" class="text-2xl font-black text-amber-400 font-mono">4:36</span>
+                                        <span class="text-xs text-slate-400"> min/km</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TABLA DE EQUIVALENCIAS -->
+                        <div class="bg-slate-950/90 p-6 rounded-2xl border border-slate-800 overflow-x-auto">
+                            <h5 class="font-bold text-sm text-cyan-300 mb-4"><span lang="es">Aplicación Práctica en tus Sesiones</span><span lang="en">Practical Application in Training</span></h5>
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-cyan-400 font-bold uppercase text-[10px]">
+                                        <th class="p-2"><span lang="es">Tipo de Entrenamiento</span><span lang="en">Workout Type</span></th>
+                                        <th class="p-2"><span lang="es">% VAM</span><span lang="en">% MAS</span></th>
+                                        <th class="p-2"><span lang="es">Ritmo Calculado</span><span lang="en">Calculated Pace</span></th>
+                                        <th class="p-2"><span lang="es">Sensación (Escala RPE)</span><span lang="en">Exertion (RPE Scale)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800 font-medium">
+                                    <tr>
+                                        <td class="p-2 text-emerald-400"><span lang="es">Carrera Continua Suave</span><span lang="en">Light Continuous Jog</span></td>
+                                        <td class="p-2 font-mono">70% VAM</td>
+                                        <td class="p-2 font-mono text-white" id="r70Pace">6:34 min/km</td>
+                                        <td class="p-2"><span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-[10px] font-bold">RPE 5 (Hablar)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-amber-400"><span lang="es">Fartlek / Cambios de Ritmo</span><span lang="en">Fartlek / Pace Changes</span></td>
+                                        <td class="p-2 font-mono">85% VAM</td>
+                                        <td class="p-2 font-mono text-white" id="r85Pace">5:24 min/km</td>
+                                        <td class="p-2"><span class="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded text-[10px] font-bold">RPE 7 (Exigente)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-red-400"><span lang="es">Series Fraccionadas / HIIT</span><span lang="en">Interval Series / HIIT</span></td>
+                                        <td class="p-2 font-mono">100% VAM</td>
+                                        <td class="p-2 font-mono text-white" id="r100Pace">4:36 min/km</td>
+                                        <td class="p-2"><span class="bg-red-500/20 text-red-300 px-2 py-0.5 rounded text-[10px] font-bold">RPE 8-9 (Sin hablar)</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: PLANIFICACIÓN Y ESTRUCTURA DEL ENTRENAMIENTO -->
+        <section id="planificacion" class="scroll-mt-24">
+            <div class="flex items-center space-x-4 mb-8">
+                <div class="w-12 h-12 bg-blue-500/10 text-blue-600 rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-blue-500/20">4</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">4. Planificación y Estructura del Entrenamiento</span>
+                        <span lang="en">4. Training Planning & Structure</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">Planificar supone organizar tu entrenamiento dentro de una lógica progresión temporal.</span>
+                        <span lang="en">Planning means organizing your training progression with logical timing.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Estructura de Ciclos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md uppercase">Macrociclos</span>
+                    <h4 class="font-bold text-lg text-slate-800 mt-2"><span lang="es">6 Meses - 1 Año</span><span lang="en">6 Months - 1 Year</span></h4>
+                    <p class="text-xs text-slate-600 mt-1"><span lang="es">Periodo largo con etapas de preparación, competición y transición.</span><span lang="en">Long timeframe covering preparation, competition, and transition.</span></p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md uppercase">Mesociclos</span>
+                    <h4 class="font-bold text-lg text-slate-800 mt-2"><span lang="es">3 a 6 Semanas</span><span lang="en">3 to 6 Weeks</span></h4>
+                    <p class="text-xs text-slate-600 mt-1"><span lang="es">Bloques temáticos para desarrollar capacidades específicas.</span><span lang="en">Targeted training blocks to develop specific physical qualities.</span></p>
+                </div>
+                <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 shadow-sm">
+                    <span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-md uppercase"><span lang="es">Microciclos (Clave)</span><span lang="en">Microcycles (Key)</span></span>
+                    <h4 class="font-bold text-lg text-amber-950 mt-2"><span lang="es">1 Semana (7 Días)</span><span lang="en">1 Week (7 Days)</span></h4>
+                    <p class="text-xs text-slate-700 mt-1"><span lang="es">Estructura semanal práctica para organizar las sesiones y el descanso.</span><span lang="en">Practical weekly layout balancing training sessions and recovery.</span></p>
+                </div>
+            </div>
+
+            <!-- Ejemplo de Microciclo Semanal Sano -->
+            <div class="bg-slate-900 text-white p-6 sm:p-8 rounded-3xl mb-10 border border-slate-800 shadow-xl">
+                <h3 class="font-heading font-bold text-xl text-school-gold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-school-gold"></i>
+                    <span lang="es">Ejemplo de Microciclo Sano para un Estudiante (1 Semana)</span>
+                    <span lang="en">Example of a Healthy Student Microcycle (1 Week)</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3 text-xs">
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-amber-400 block mb-1">Lunes</span>
+                        <p class="text-slate-300 font-semibold">Fuerza Base</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Patrones de movimiento</p>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-emerald-400 block mb-1">Martes</span>
+                        <p class="text-slate-300 font-semibold">Descanso Activo</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Caminar o paseo</p>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-cyan-400 block mb-1">Miércoles</span>
+                        <p class="text-slate-300 font-semibold">Resistencia / HIIT</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Carrera / Circuito</p>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-amber-400 block mb-1">Jueves</span>
+                        <p class="text-slate-300 font-semibold">Fuerza Base</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Tracción y Empuje</p>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-slate-400 block mb-1">Viernes</span>
+                        <p class="text-slate-300 font-semibold">Descanso Total</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Recuperación pasiva</p>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-blue-400 block mb-1">Sábado</span>
+                        <p class="text-slate-300 font-semibold">Deporte Libre</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Fútbol, pádel, bici</p>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+                        <span class="font-bold text-purple-400 block mb-1">Domingo</span>
+                        <p class="text-slate-300 font-semibold">Flexibilidad</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Estiramientos / FNP</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estructura de la Sesión de Entrenamiento -->
+            <div class="glass-card p-6 sm:p-8 rounded-3xl">
+                <h3 class="font-heading font-bold text-xl text-school-navy mb-4">
+                    <span lang="es">Las 3 Partes Obligatorias de una Sesión</span>
+                    <span lang="en">The 3 Mandatory Parts of a Training Session</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                    <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-200">
+                        <span class="text-xs font-bold text-emerald-700 uppercase">1. Calentamiento (10-15 min)</span>
+                        <h4 class="font-bold text-emerald-950 text-base mt-1"><span lang="es">Activación General</span><span lang="en">General Activation</span></h4>
+                        <p class="text-xs text-slate-700 mt-2"><span lang="es">Movilidad articular general, activación del core y subida progresiva de pulsaciones ($\text{RPE } 3-4$).</span><span lang="en">Joint mobility, core activation, and gradual HR increase ($\text{RPE } 3-4$).</span></p>
+                    </div>
+                    <div class="bg-blue-50 p-5 rounded-2xl border border-blue-200">
+                        <span class="text-xs font-bold text-blue-700 uppercase">2. Parte Principal (30-45 min)</span>
+                        <h4 class="font-bold text-blue-950 text-base mt-1"><span lang="es">Núcleo del Entrenamiento</span><span lang="en">Core Workout</span></h4>
+                        <p class="text-xs text-slate-700 mt-2"><span lang="es">Aplicación de los sistemas de entrenamiento (Fuerza, Resistencia o Concurrente).</span><span lang="en">Execution of targeted training systems (Strength, Endurance, Concurrent).</span></p>
+                    </div>
+                    <div class="bg-purple-50 p-5 rounded-2xl border border-purple-200">
+                        <span class="text-xs font-bold text-purple-700 uppercase">3. Vuelta a la Calma (5-10 min)</span>
+                        <h4 class="font-bold text-purple-950 text-base mt-1"><span lang="es">Normalización</span><span lang="en">Cool-down</span></h4>
+                        <p class="text-xs text-slate-700 mt-2"><span lang="es">Bajar pulsaciones gradualmente y aplicar métodos de flexibilidad.</span><span lang="en">Gradually lower HR and perform static flexibility stretching.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: SISTEMAS DE ENTRENAMIENTO -->
+        <section id="sistemas" class="scroll-mt-24 space-y-8">
+            <div class="flex items-center space-x-4 mb-4">
+                <div class="w-12 h-12 bg-red-500/10 text-red-600 rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-red-500/20">5</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">5. Sistemas de Entrenamiento de la Resistencia</span>
+                        <span lang="en">5. Endurance Training Systems</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">Sistemas continuos, fraccionados y mixtos para desarrollar tu capacidad aeróbica y anaeróbica.</span>
+                        <span lang="en">Continuous, interval, and mixed methods to improve aerobic and anaerobic capacities.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- RESISTENCIA -->
+            <div class="glass-card p-6 sm:p-8 rounded-3xl border-l-8 border-l-red-500">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <strong class="text-slate-900 text-sm block mb-2 font-bold"><span lang="es">1. Continuos (Sin descanso)</span><span lang="en">1. Continuous (No rest)</span></strong>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong>a) Caminar (Cross-paseo):</strong> <span lang="es">Ritmo ligero ($+30\text{ min}$, $100-130\text{ ppm}$, $\text{RPE } 3-4$).</span><span lang="en">Brisk walk ($+30\text{ min}$, $100-130\text{ bpm}$, $\text{RPE } 3-4$).</span></li>
+                            <li><strong>b) Carrera continua:</strong> <span lang="es">Intensidad moderada prolongada ($+30\text{ min}$, $140-160\text{ ppm}$, $\text{RPE } 5-6$).</span><span lang="en">Moderate running ($+30\text{ min}$, $140-160\text{ bpm}$, $\text{RPE } 5-6$).</span></li>
+                            <li><strong>c) Fartlek:</strong> <span lang="es">Cambios de ritmo y terreno sin parar ($+30\text{ min}$, $130-170\text{ ppm}$, $\text{RPE } 6-8$).</span><span lang="en">Pace variations ($+30\text{ min}$, $130-170\text{ bpm}$, $\text{RPE } 6-8$).</span></li>
+                            <li><strong>d) Entrenamiento total:</strong> <span lang="es">Carrera continua + ejercicios gimnásticos ($120-180\text{ ppm}$).</span><span lang="en">Continuous running + gym exercises ($120-180\text{ bpm}$).</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <strong class="text-slate-900 text-sm block mb-2 font-bold"><span lang="es">2. Fraccionados (Con descanso)</span><span lang="en">2. Interval (With rest)</span></strong>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong>a) Interval training:</strong> <span lang="es">Esfuerzos submáximos ($100-400\text{ m}$). Recuperación incompleta hasta bajar a $120\text{ ppm}$ ($\text{RPE } 7-8$).</span><span lang="en">Submaximal efforts ($100-400\text{ m}$). Incomplete recovery to $120\text{ bpm}$ ($\text{RPE } 7-8$).</span></li>
+                            <li><strong>b) Repeticiones:</strong> <span lang="es">Máxima intensidad. Recuperación completa ($<120\text{ ppm}$, $\text{RPE } 9-10$).</span><span lang="en">Max intensity efforts. Full recovery ($<120\text{ bpm}$, $\text{RPE } 9-10$).</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <strong class="text-slate-900 text-sm block mb-2 font-bold"><span lang="es">3. Mixtos</span><span lang="en">3. Mixed</span></strong>
+                        <p class="text-slate-700 leading-relaxed">
+                            <span lang="es"><strong>a) Circuit training:</strong> Ejercicios por estaciones ($8-12$ estaciones de $30''-45''$). $2-3$ vueltas. Transición rápida sin descanso entre estaciones (solo descanso entre vueltas).</span>
+                            <span lang="en"><strong>a) Circuit training:</strong> Station exercises ($8-12$ stations of $30''-45''$). $2-3$ rounds. Fast transitions with rest between rounds.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUERZA -->
+            <div class="flex items-center space-x-4 pt-4 mb-4">
+                <div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-indigo-500/20">6</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">6. Sistemas de Entrenamiento de la Fuerza</span>
+                        <span lang="en">6. Strength Training Systems</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">Desarrollo de fuerza-resistencia, hipertrofia y fuerza máxima mediante patrones de movimiento.</span>
+                        <span lang="en">Developing strength-endurance, hypertrophy, and max strength using movement patterns.</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 sm:p-8 rounded-3xl border-l-8 border-l-indigo-600">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs mb-6">
+                    <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                        <strong class="text-indigo-900 text-sm block mb-2 font-bold"><span lang="es">1. Cuestas</span><span lang="en">1. Hill Runs</span></strong>
+                        <p class="text-slate-700"><span lang="es">Correr en pendiente. Cuestas largas / poca pendiente (fuerza-resistencia). Cuestas cortas / pronunciadas (fuerza explosiva). Recuperación bajando al trote suave.</span><span lang="en">Incline running. Long hills (strength-endurance) or short steep hills (explosive strength). Active jog down recovery.</span></p>
+                    </div>
+
+                    <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                        <strong class="text-indigo-900 text-sm block mb-2 font-bold"><span lang="es">2. Entrenamiento de Repeticiones</span><span lang="en">2. Repetition Training</span></strong>
+                        <ul class="space-y-1 text-slate-700">
+                            <li><strong>Fuerza-resistencia:</strong> <span lang="es">$15-30$ reps ($40-60\%$ carga, $\text{RIR } 3-4$, desc: $30''-90''$).</span><span lang="en">$15-30$ reps ($40-60\%$ load, $\text{RIR } 3-4$, rest: $30''-90''$).</span></li>
+                            <li><strong>Fuerza hipertrofia / explosiva:</strong> <span lang="es">$6-12$ reps ($60-80\%$ carga, $\text{RIR } 1-2$, desc: $1'-3'$).</span><span lang="en">$6-12$ reps ($60-80\%$ load, $\text{RIR } 1-2$, rest: $1'-3'$).</span></li>
+                            <li><strong>Fuerza máxima:</strong> <span lang="es">$1-4$ reps ($90-100\%$ carga, $\text{RIR } 0$, desc: $+3'$).</span><span lang="en">$1-4$ reps ($90-100\%$ load, $\text{RIR } 0$, rest: $+3'$).</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- PATRONES DE MOVIMIENTO -->
+                <div class="bg-slate-900 text-white p-5 rounded-2xl">
+                    <strong class="text-school-gold text-xs uppercase tracking-wider block mb-3 font-bold"><span lang="es">C. Elección de Ejercicios por Patrones de Movimiento (Cadenas Musculares)</span><span lang="en">C. Exercise Selection by Movement Patterns</span></strong>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs text-center">
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                            <span class="font-bold text-cyan-400 block"><span lang="es">Tracción</span><span lang="en">Pull</span></span>
+                            <span class="text-[11px] text-slate-300"><span lang="es">Dominadas, remo</span><span lang="en">Pull-ups, rows</span></span>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                            <span class="font-bold text-blue-400 block"><span lang="es">Empuje</span><span lang="en">Push</span></span>
+                            <span class="text-[11px] text-slate-300"><span lang="es">Flexiones, press</span><span lang="en">Push-ups, press</span></span>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                            <span class="font-bold text-emerald-400 block"><span lang="es">Dom. Rodilla</span><span lang="en">Knee Dom.</span></span>
+                            <span class="text-[11px] text-slate-300"><span lang="es">Sentadillas, zancadas</span><span lang="en">Squats, lunges</span></span>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                            <span class="font-bold text-amber-400 block"><span lang="es">Dom. Cadera</span><span lang="en">Hip Dom.</span></span>
+                            <span class="text-[11px] text-slate-300"><span lang="es">Peso muerto, puente glúteo</span><span lang="en">Deadlift, glute bridge</span></span>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 col-span-2 sm:col-span-1">
+                            <span class="font-bold text-purple-400 block">Core</span>
+                            <span class="text-[11px] text-slate-300"><span lang="es">Planchas isométricas</span><span lang="en">Isometric planks</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONCURRENTE -->
+            <div class="flex items-center space-x-4 pt-4 mb-4">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-amber-500/20">7</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">7. Sistemas de Entrenamiento Combinado (Concurrente)</span>
+                        <span lang="en">7. Combined Training Systems (Concurrent)</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">Combina fuerza y resistencia en la misma sesión para obtener adaptaciones integrales.</span>
+                        <span lang="en">Combines strength and endurance in the same session for well-rounded adaptations.</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 sm:p-8 rounded-3xl border-l-8 border-l-amber-500">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                        <strong class="text-amber-950 font-bold block mb-1">1. Circuit Training Mixto</strong>
+                        <p class="text-slate-700"><span lang="es">Alterna ejercicios de fuerza y cardio. $8-12$ estaciones de $30''-45''$. $\text{RPE } 7$. Transiciones muy rápidas ($10''-15''$). Descanso entre vueltas de $1'-3'$.</span><span lang="en">Alternates strength and cardio. $8-12$ stations of $30''-45''$. $\text{RPE } 7$. Fast transitions ($10''-15''$). Rest between rounds $1'-3'$.</span></p>
+                    </div>
+                    <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                        <strong class="text-amber-950 font-bold block mb-1">2. HIIT (High-Intensity Interval)</strong>
+                        <p class="text-slate-700"><span lang="es">Intercala esfuerzos muy intensos con descansos cortos ($10-25\text{ min}$ totales). Intervalos de $20''-60''$. $\text{RPE } 8-9$ ($80-95\%\text{ FC}_{\text{máx}}$). Ej: Método Tabata ($20''$ on / $10''$ off $\times 8$).</span><span lang="en">Intense efforts with short rest ($10-25\text{ min}$ total). Intervals $20''-60''$. $\text{RPE } 8-9$ ($80-95\%\text{ HR}_{\text{max}}$). Ex: Tabata ($20''$ on / $10''$ off $\times 8$).</span></p>
+                    </div>
+                    <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                        <strong class="text-amber-950 font-bold block mb-1">3. SIT (Sprint Interval Training)</strong>
+                        <p class="text-slate-700"><span lang="es">Versión más extrema. Esfuerzos explosivos "a tope" muy cortos ($10''-30''$). Recuperaciones completas muy largas ($2-4\text{ min}$). $4-6$ repeticiones al $100\%$ ($\text{RPE } 10$).</span><span lang="en">Extreme version. Max explosive sprints ($10''-30''$). Long full recoveries ($2-4\text{ min}$). $4-6$ reps at $100\%$ ($\text{RPE } 10$).</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLEXIBILIDAD -->
+            <div class="flex items-center space-x-4 pt-4 mb-4">
+                <div class="w-12 h-12 bg-purple-500/10 text-purple-600 rounded-2xl flex items-center justify-center text-2xl font-black shadow-inner border border-purple-500/20">8</div>
+                <div>
+                    <h2 class="text-3xl font-heading font-extrabold text-school-navy">
+                        <span lang="es">8. Sistemas de Entrenamiento de la Flexibilidad</span>
+                        <span lang="en">8. Flexibility Training Systems</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span lang="es">Métodos activos y pasivos para mejorar la amplitud de movimiento articular (ROM).</span>
+                        <span lang="en">Active and passive methods to improve range of motion (ROM).</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 sm:p-8 rounded-3xl border-l-8 border-l-purple-600 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                    <div class="bg-purple-50/60 p-4 rounded-2xl border border-purple-100">
+                        <strong class="text-purple-950 font-bold text-sm block mb-2"><span lang="es">1. Métodos Activos</span><span lang="en">1. Active Methods</span></strong>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong>a) Activo estático:</strong> Mantener posición $20''-30''$ sin dolor (Stretching de Bob Anderson).</li>
+                            <li><strong>b) Activo balístico:</strong> Estirar mediante balanceos y movimientos fluidos.</li>
+                            <li><strong>c) Activo asistido:</strong> Alcanzar posición y una fuerza externa ayuda a profundizar.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50/60 p-4 rounded-2xl border border-purple-100">
+                        <strong class="text-purple-950 font-bold text-sm block mb-2"><span lang="es">2. Métodos Pasivos y FNP</span><span lang="en">2. Passive Methods & PNF</span></strong>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong>a) Pasivo:</strong> Por peso corporal o gravedad.</li>
+                            <li><strong>b) Pasivo asistido:</strong> Presión suave de un compañero.</li>
+                            <li><strong>c) FNP (Facilitación Neuromuscular Propioceptiva):</strong> El más efectivo. 1) Estiramiento pasivo. 2) Contracción isométrica de $6''$ contra resistencia. 3) Relajar y ganar nuevo rango.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Glosario y Apps -->
+                <div class="bg-slate-900 text-white p-5 rounded-2xl text-xs space-y-3">
+                    <div class="flex items-center gap-2 font-bold text-school-gold uppercase tracking-wider">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span lang="es">Glosario Práctico y Apps Gratuitas Recomendadas</span>
+                        <span lang="en">Practical Glossary & Recommended Free Apps</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-slate-300">
+                        <p><strong>Glosario:</strong> <em>Hipertrofia</em> (aumento masa muscular), <em>Core</em> (faja abdominal y lumbar), <em>ROM</em> (Rango de movimiento).</p>
+                        <p><strong>Apps:</strong> Tabata Timer, SmartWOD, Strava (para carreras y paseos), Nike Training Club (rutinas guiadas).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: ANEXO - IA EN TU ENTRENAMIENTO -->
+        <section id="anexo-ia" class="scroll-mt-24">
+            <div class="glass-card p-6 sm:p-10 rounded-3xl border-2 border-amber-500/50 shadow-2xl relative overflow-hidden">
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black border border-amber-500/30">9</div>
+                    <div>
+                        <span class="px-3 py-1 rounded-md bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">Anexo Práctico</span>
+                        <h2 class="text-2xl sm:text-3xl font-heading font-black text-school-navy mt-1">
+                            <span lang="es">Cómo utilizar la Inteligencia Artificial para Diseñar tu Entrenamiento</span>
+                            <span lang="en">How to Use Artificial Intelligence to Design Your Workout</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                    <span lang="es">La IA es una herramienta fantástica pero no sustituye a un entrenador real. Para obtener una rutina segura, personalizada y científicamente correcta, utiliza nuestras plantillas de prompts:</span>
+                    <span lang="en">AI is a great tool but doesn't replace a human trainer. Use our prompt templates to ensure a safe, customized, and effective workout plan:</span>
+                </p>
+
+                <!-- MEGA PROMPT CONTAINER -->
+                <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 mb-6 relative">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest"><i class="fa-solid fa-copy mr-1"></i> Mega-Prompt Inicial de Contexto</span>
+                        <button id="copyPromptBtn" class="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs transition">
+                            <i class="fa-solid fa-paste mr-1"></i> <span lang="es">Copiar Plantilla</span><span lang="en">Copy Template</span>
+                        </button>
+                    </div>
+                    <pre id="promptText" class="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800">"Actúa como un entrenador personal experto en salud y educación física. Tengo [TU EDAD] años y mi nivel de condición física actual es [PRINCIPIANTE / INTERMEDIO]. Mi objetivo principal es [GANAR FUERZA BASE / MEJORAR RESISTENCIA / PERDER GRASA / POSTURA]. Quiero entrenar [NÚMERO DE DÍAS] días a la semana, durante [MINUTOS] minutos por sesión. Dispongo del siguiente material: [PESO CORPORAL / BANDAS / MANCUERNAS]. Ten en cuenta esta molestia o limitación: [NINGUNA / LUMBART / ASMA / RODILLA]. Diseña para mí un microciclo (1 semana) con calentamiento, parte principal y vuelta a la calma."</pre>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                        <strong class="text-amber-950 font-bold block mb-1"><i class="fa-solid fa-sliders text-amber-600 mr-1"></i> Prompt de Ajuste Técnico (RPE/RIR):</strong>
+                        <p class="text-slate-700">"Reescribe la rutina organizando la fuerza por patrones de movimiento. Indícame la intensidad usando RIR (Repeticiones en Reserva) en fuerza y escala RPE en resistencia."</p>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                        <strong class="text-amber-950 font-bold block mb-1"><i class="fa-solid fa-comments text-amber-600 mr-1"></i> Prompt de Feedback / Molestias:</strong>
+                        <p class="text-slate-700">"El ejercicio [NOMBRE] me produce molestias en [ZONA]. Dame 3 alternativas más seguras con el mismo patrón motor."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER WITH MANDATORY OFFICIAL SIGNATURE -->
+    <footer class="bg-school-navy text-white border-t border-slate-800 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            
+            <div class="flex items-center justify-center space-x-3">
+                <div class="w-12 h-12 rounded-2xl gradient-gold flex items-center justify-center text-school-navy font-black text-xl shadow-lg border border-white/20">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+            </div>
+
+            <!-- FIRMA OFICIAL DESTACADA -->
+            <div class="space-y-1">
+                <h3 class="font-heading font-black text-xl sm:text-2xl text-white tracking-wide uppercase">
+                    Departamento de EF. IES Pérez Comendador
+                </h3>
+                <p class="text-xs text-school-gold font-medium tracking-wider">
+                    <span lang="es">Situación de Aprendizaje • Planificación del Entrenamiento Personal</span>
+                    <span lang="en">Learning Scenario • Personal Training Planning</span>
+                </p>
+            </div>
+
+            <p class="text-xs text-slate-400 max-w-xl mx-auto leading-relaxed">
+                <span lang="es">Material educativo elaborado para el alumnado de Educación Física. Fomentando hábitos de vida saludables, autonomía en el entrenamiento y alfabetización motriz.</span>
+                <span lang="en">Educational material produced for Physical Education students. Promoting healthy lifestyles, training autonomy, and motor literacy.</span>
+            </p>
+
+            <div class="pt-4 border-t border-slate-800 text-[11px] text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2 max-w-4xl mx-auto">
+                <span>&copy; 2026 Departamento de EF. IES Pérez Comendador.</span>
+                <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-shield-halved text-emerald-400"></i> <span lang="es">Contenido Didáctico Oficial</span><span lang="en">Official Educational Content</span></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Language Toggle Mechanism
+        let currentLang = 'es';
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        const currentLangLabel = document.getElementById('currentLangLabel');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            document.documentElement.setAttribute('lang', currentLang);
+            currentLangLabel.textContent = currentLang === 'es' ? 'ES / EN' : 'EN / ES';
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // Interactive Toggles for FC and VAM
+        const btnToggleFc = document.getElementById('btnToggleFc');
+        const btnCloseFc = document.getElementById('btnCloseFc');
+        const fcContainer = document.getElementById('fcContainer');
+
+        const btnToggleVam = document.getElementById('btnToggleVam');
+        const btnCloseVam = document.getElementById('btnCloseVam');
+        const vamContainer = document.getElementById('vamContainer');
+
+        btnToggleFc.addEventListener('click', () => {
+            fcContainer.classList.toggle('hidden');
+            if (!fcContainer.classList.contains('hidden')) {
+                fcContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+        btnCloseFc.addEventListener('click', () => fcContainer.classList.add('hidden'));
+
+        btnToggleVam.addEventListener('click', () => {
+            vamContainer.classList.toggle('hidden');
+            if (!vamContainer.classList.contains('hidden')) {
+                vamContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+        btnCloseVam.addEventListener('click', () => vamContainer.classList.add('hidden'));
+
+        // Heart Rate (FC) Calculator Logic
+        function calculateFc() {
+            const age = parseInt(document.getElementById('fcAgeInput').value) || 16;
+            const rest = parseInt(document.getElementById('fcRestInput').value) || 65;
+
+            // Tanaka Formula: 208 - (0.7 * age)
+            const fcMax = Math.round(208 - (0.7 * age));
+            const fcRes = fcMax - rest;
+
+            document.getElementById('fcMaxVal').textContent = fcMax;
+            document.getElementById('fcResVal').textContent = fcRes;
+
+            // Karvonen Zones
+            const z1Min = Math.round(rest + (fcRes * 0.50));
+            const z1Max = Math.round(rest + (fcRes * 0.60));
+            const z2Max = Math.round(rest + (fcRes * 0.70));
+            const z3Max = Math.round(rest + (fcRes * 0.80));
+            const z4Max = Math.round(rest + (fcRes * 0.90));
+
+            document.getElementById('z1Val').textContent = `${z1Min} - ${z1Max} ppm`;
+            document.getElementById('z2Val').textContent = `${z1Max} - ${z2Max} ppm`;
+            document.getElementById('z3Val').textContent = `${z2Max} - ${z3Max} ppm`;
+            document.getElementById('z4Val').textContent = `${z3Max} - ${z4Max} ppm`;
+            document.getElementById('z5Val').textContent = `${z4Max} - ${fcMax} ppm`;
+        }
+
+        document.getElementById('btnCalcFcAction').addEventListener('click', calculateFc);
+
+        // VAM Calculator Logic
+        function calculateVam() {
+            const meters = parseFloat(document.getElementById('vamDistInput').value) || 1300;
+            const vam = (meters / 100).toFixed(1); // e.g. 1300 / 100 = 13.0 km/h
+            
+            document.getElementById('vamResultVal').textContent = vam;
+
+            // Pace at 100% VAM (min/km)
+            // 60 / vam
+            const paceMinutesDecimal = 60 / parseFloat(vam);
+            const paceMin = Math.floor(paceMinutesDecimal);
+            const paceSec = Math.round((paceMinutesDecimal - paceMin) * 60);
+            const paceSecStr = paceSec < 10 ? '0' + paceSec : paceSec;
+            
+            document.getElementById('vamPaceVal').textContent = `${paceMin}:${paceSecStr}`;
+            document.getElementById('r100Pace').textContent = `${paceMin}:${paceSecStr} min/km`;
+
+            // 70% VAM Pace
+            const vam70 = parseFloat(vam) * 0.70;
+            const p70Dec = 60 / vam70;
+            const p70Min = Math.floor(p70Dec);
+            const p70Sec = Math.round((p70Dec - p70Min) * 60);
+            document.getElementById('r70Pace').textContent = `${p70Min}:${p70Sec < 10 ? '0' + p70Sec : p70Sec} min/km`;
+
+            // 85% VAM Pace
+            const vam85 = parseFloat(vam) * 0.85;
+            const p85Dec = 60 / vam85;
+            const p85Min = Math.floor(p85Dec);
+            const p85Sec = Math.round((p85Dec - p85Min) * 60);
+            document.getElementById('r85Pace').textContent = `${p85Min}:${p85Sec < 10 ? '0' + p85Sec : p85Sec} min/km`;
+        }
+
+        document.getElementById('btnCalcVamAction').addEventListener('click', calculateVam);
+
+        // Copy Mega-Prompt Logic
+        document.getElementById('copyPromptBtn').addEventListener('click', function() {
+            const promptText = document.getElementById('promptText').innerText;
+            const textArea = document.createElement('textarea');
+            textArea.value = promptText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            this.innerHTML = '<i class="fa-solid fa-check mr-1"></i> ¡Copiado!';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa-solid fa-paste mr-1"></i> <span lang="es">Copiar Plantilla</span><span lang="en">Copy Template</span>';
+            }, 2000);
+        });
+
+        // Initialize calculations on load
+        window.addEventListener('load', () => {
+            calculateFc();
+            calculateVam();
+        });
+    </script>
+</body>
+</html>
